@@ -13,10 +13,33 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="DS">
+      <UniqueIdentifier>{622d1384-9b15-4e47-8656-93e3300284a2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="DS_Test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="DS\LinkedPriorityQueue.h">
+      <Filter>DS</Filter>
+    </ClInclude>
+    <ClInclude Include="DS\Node.h">
+      <Filter>DS</Filter>
+    </ClInclude>
+    <ClInclude Include="DS\QueueADT.h">
+      <Filter>DS</Filter>
+    </ClInclude>
+    <ClInclude Include="DS\PriorityQueueADT.h">
+      <Filter>DS</Filter>
+    </ClInclude>
+    <ClInclude Include="DS\LinkedQueue.h">
+      <Filter>DS</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

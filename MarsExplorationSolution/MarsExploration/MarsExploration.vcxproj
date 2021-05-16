@@ -139,7 +139,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DS_Test.cpp" />
     <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="DS\LinkedPriorityQueue.h" />
+    <ClInclude Include="DS\LinkedQueue.h" />
+    <ClInclude Include="DS\Node.h" />
+    <ClInclude Include="DS\PriorityQueueADT.h" />
+    <ClInclude Include="DS\QueueADT.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
