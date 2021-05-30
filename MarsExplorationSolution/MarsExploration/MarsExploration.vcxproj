@@ -143,8 +143,10 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DS\LinkedList.h" />
     <ClInclude Include="DS\LinkedPriorityQueue.h" />
     <ClInclude Include="DS\LinkedQueue.h" />
+    <ClInclude Include="DS\ListADT.h" />
     <ClInclude Include="DS\Node.h" />
     <ClInclude Include="DS\PriorityQueueADT.h" />
     <ClInclude Include="DS\QueueADT.h" />

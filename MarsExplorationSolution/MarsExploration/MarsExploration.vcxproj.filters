@@ -41,5 +41,11 @@
     <ClInclude Include="DS\LinkedQueue.h">
       <Filter>DS</Filter>
     </ClInclude>
+    <ClInclude Include="DS\LinkedList.h">
+      <Filter>DS</Filter>
+    </ClInclude>
+    <ClInclude Include="DS\ListADT.h">
+      <Filter>DS</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
