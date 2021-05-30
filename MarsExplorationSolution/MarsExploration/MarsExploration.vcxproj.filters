@@ -14,38 +14,38 @@
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
     <Filter Include="DS">
-      <UniqueIdentifier>{622d1384-9b15-4e47-8656-93e3300284a2}</UniqueIdentifier>
+      <UniqueIdentifier>{eb0be241-7876-406a-b573-7a7e422b68cc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DS_Test.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
+    <ClInclude Include="DS\LinkedList.h">
+      <Filter>DS</Filter>
+    </ClInclude>
     <ClInclude Include="DS\LinkedPriorityQueue.h">
-      <Filter>DS</Filter>
-    </ClInclude>
-    <ClInclude Include="DS\Node.h">
-      <Filter>DS</Filter>
-    </ClInclude>
-    <ClInclude Include="DS\QueueADT.h">
-      <Filter>DS</Filter>
-    </ClInclude>
-    <ClInclude Include="DS\PriorityQueueADT.h">
       <Filter>DS</Filter>
     </ClInclude>
     <ClInclude Include="DS\LinkedQueue.h">
       <Filter>DS</Filter>
     </ClInclude>
-    <ClInclude Include="DS\LinkedList.h">
-      <Filter>DS</Filter>
-    </ClInclude>
     <ClInclude Include="DS\ListADT.h">
       <Filter>DS</Filter>
     </ClInclude>
+    <ClInclude Include="DS\Node.h">
+      <Filter>DS</Filter>
+    </ClInclude>
+    <ClInclude Include="DS\PriorityQueueADT.h">
+      <Filter>DS</Filter>
+    </ClInclude>
+    <ClInclude Include="DS\QueueADT.h">
+      <Filter>DS</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="DS_Test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
