@@ -1,7 +1,5 @@
 #include "Mountainousrovers.h"
 
-
-Mountainousrovers::Mountainousrovers(){}
 Mountainousrovers::Mountainousrovers(double speed ,int nom,int checkupDuration):Rover(speed,nom,checkupDuration)
 {
 }

@@ -7,16 +7,16 @@ private:
 
 	Node<T>* next; // Pointer to next node
 public:
-	float priority;
+	double priority;
 	Node();
 	Node(const T& r_Item);
 	Node(const T& r_Item, float p);
 	Node(const T& r_Item, Node<T>* nextNodePtr);
 	void setItem(const T& r_Item);
-	void setpriority(float p);
+	void setpriority(double p);
 	void setNext(Node<T>* nextNodePtr);
 	T getItem() const;
-	float getpriority() const;
+	double getpriority() const;
 	Node<T>* getNext() const;
 }; // end Node
 
@@ -33,6 +33,7 @@ Node<T>::Node(const T& r_Item)
 {
 	item = r_Item;
 	next = nullptr;
+	priority = 0;
 }
 template < typename T>
 Node<T>::Node(const T& r_Item, float p)
@@ -54,7 +55,7 @@ void Node<T>::setItem(const T& r_Item)
 	item = r_Item;
 }
 template < typename T>
-void Node<T>::setpriority(float p)
+void Node<T>::setpriority(double p)
 {
 	priority = p;
 }
@@ -70,7 +71,7 @@ T Node<T>::getItem() const
 	return item;
 }
 template < typename T>
-float Node<T>::getpriority() const
+double Node<T>::getpriority() const
 {
 	return priority;
 }

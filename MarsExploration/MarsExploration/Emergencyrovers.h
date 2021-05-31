@@ -5,7 +5,6 @@ class Emergencyrovers : public Rover
 private:
 
 public:
-	Emergencyrovers();
 	Emergencyrovers(double speed ,int nom,int checkupDuration);
 	virtual void setspeed(double speed);
 	virtual double getspeed();

@@ -35,19 +35,22 @@ public:
 	bool insert(const T& newEntry)
 	{
 		int count = 0;
-		Node<T>* P = Head;
+		Node<T>* P = head;
 		while (P)
 		{
-			if ((P->getNext() == NULL) && (count == 0))
+			if ((P->getNext() == nullptr) && (count == 0))
 			{
-				Node<T>* R = new Node<T>(data);
-				R->setNext(NULL);
+				Node<T>* R = new Node<T>(newEntry);
+				if (!R)
+					return false;
+				R->setNext(nullptr);
 				P->setNext(R);
 
 				count++;
 			}
 
 			P = P->getNext();
+			return true;
 		}
 	}
 	/// //////////////////////////////////////////////////////

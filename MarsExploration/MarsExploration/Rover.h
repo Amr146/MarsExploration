@@ -10,7 +10,6 @@ protected:
 	int Nomdone;     //number of missions done by rover before its checkup
 	int Numofcheckups; //number of checkups done fore the rover
 public:
-	Rover();
 	Rover(double speed ,int nom,int checkupDuration );
 	virtual void setspeed(double speed);
 	virtual double getspeed();

@@ -1,7 +1,6 @@
 #include "Polarrovers.h"
 
 
-Polarrovers::Polarrovers(){}
 Polarrovers::Polarrovers(double speed ,int nom,int checkupDuration):Rover(speed,nom,checkupDuration)
 {
 }

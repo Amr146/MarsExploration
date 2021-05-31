@@ -1,6 +1,5 @@
 #include "Emergencyrovers.h"
 
-Emergencyrovers::Emergencyrovers(){}
 Emergencyrovers::Emergencyrovers(double speed ,int nom,int checkupDuration):Rover(speed,nom,checkupDuration)
 {
 }

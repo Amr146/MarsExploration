@@ -1,8 +1,4 @@
 #include "Rover.h"
-Rover:: Rover( )
-    {
-		
-    }
    Rover:: Rover(double speed ,int nom,int checkupDuration )
     {
 		if (speed>0 && nom>0 && checkupDuration>0)
@@ -11,8 +7,16 @@ Rover:: Rover( )
 			Nom=nom;
 			CheckupDuration=checkupDuration;
 		}
+		else
+		{
+			Speed = 0;
+			Nom = 0;
+			CheckupDuration = 0;
+		}
 		Nomdone=0;    //intaial value
 		Numofcheckups=0; //intaial value
+		Finishcheckupday = 0;
+		FinishMaintenanceday = 0;
     }
    void Rover:: setspeed(double speed)
 	{

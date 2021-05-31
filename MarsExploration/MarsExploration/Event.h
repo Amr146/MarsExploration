@@ -1,5 +1,5 @@
 #pragma once
-#include"DS_TEST.cpp"
+#include"Constants.h"
 #include"LinkedPriorityQueue.h"
 #include"LinkedList.h"
 #include"LinkedQueue.h"
@@ -15,8 +15,10 @@ protected:
 public:
 	Event(int ed, int id)
 	{
-		if(ed > 0)
+		if (ed > 0)
 			ED = ed;
+		else
+			ED = 0;
 		ID = id;
 	}
 	virtual void Execute() = 0;

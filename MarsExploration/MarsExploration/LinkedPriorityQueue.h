@@ -14,7 +14,7 @@ private:
 public:
 	LinkedPriorityQueue();
 	bool isEmpty() const;
-	bool add(const T& newEntry, float priority);
+	bool add(const T& newEntry, double priority);
 	bool remove(T& frntEntry);
 	bool peek(T& frntEntry)  const;
 	~LinkedPriorityQueue();
@@ -63,7 +63,7 @@ Output: True if the operation is successful; otherwise false.
 */
 
 template <typename T>
-bool LinkedPriorityQueue<T>::add(const T& newEntry, float priority)
+bool LinkedPriorityQueue<T>::add(const T& newEntry, double priority)
 {
 	Node<T>* newNodePtr = new Node<T>(newEntry);
 	newNodePtr->setpriority(priority);
@@ -73,7 +73,7 @@ bool LinkedPriorityQueue<T>::add(const T& newEntry, float priority)
 		frontPtr = newNodePtr; // The PriorityQueue is empty
 		backPtr = newNodePtr;
 	}
-	else if (frontPtr->getNext() == NULL)
+	else if (frontPtr->getNext() == nullptr)
 	{
 		Node<T>* P = frontPtr;
 		if (newNodePtr->priority > P->priority)

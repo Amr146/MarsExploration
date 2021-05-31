@@ -1,11 +1,6 @@
 #include "PolarMission.h"
 
-PolarMission::PolarMission()
-{
-
-}
-
-PolarMission::PolarMission( int ID, int Target_location, int mission_duration, int Si, int fd):Mission(ID,Target_location,mission_duration,Si, fd)
+PolarMission::PolarMission( int ID, double Target_location, int mission_duration, double Si, int fd):Mission(ID,Target_location,mission_duration,Si, fd)
 {
 
 }
@@ -20,12 +15,12 @@ int PolarMission::get_id()
 	return id;
 }
 
-void PolarMission::set_tloc(int Target_location)
+void PolarMission::set_tloc(double Target_location)
 {
 	tloc=Target_location;
 }
 
-int PolarMission::get_tloc()
+double PolarMission::get_tloc()
 {
 	return tloc;
 }
@@ -40,12 +35,12 @@ int PolarMission::get_mdur()
 	return mdur;
 }
 
-void PolarMission::set_si(int Si)
+void PolarMission::set_si(double Si)
 {
 	Significance=Si;
 }
 
-int PolarMission::get_si()
+double PolarMission::get_si()
 {
 	return Significance;
 }

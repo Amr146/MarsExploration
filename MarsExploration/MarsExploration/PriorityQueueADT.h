@@ -18,7 +18,7 @@ public:
         correct position in the queue.
      @param newEntry  The object to be added as a new entry.
      @return  True if the addition is successful or false if not. */
-    virtual bool add(const ItemType& newEntry, float priority) = 0;
+    virtual bool add(const ItemType& newEntry, double priority) = 0;
 
     /** Copies the front item of the queue to the passed parameter and removes it from queue
      @post  If the operation was successful, the front of the queue

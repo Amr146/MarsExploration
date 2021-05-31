@@ -1,11 +1,6 @@
 #include "MountainousMission.h"
 
-MountainousMission::MountainousMission()
-{
-
-}
-
-MountainousMission::MountainousMission( int ID, int Target_location, int mission_duration, int Si, int fd):Mission(ID,Target_location,mission_duration,Si, fd)
+MountainousMission::MountainousMission( int ID, double Target_location, int mission_duration, double Si, int fd):Mission(ID,Target_location,mission_duration,Si, fd)
 {
 
 }
@@ -20,12 +15,12 @@ int MountainousMission::get_id()
 	return id;
 }
 
-void MountainousMission::set_tloc(int Target_location)
+void MountainousMission::set_tloc(double Target_location)
 {
 	tloc=Target_location;
 }
 
-int MountainousMission::get_tloc()
+double MountainousMission::get_tloc()
 {
 	return tloc;
 }
@@ -40,12 +35,12 @@ int MountainousMission::get_mdur()
 	return mdur;
 }
 
-void MountainousMission::set_si(int Si)
+void MountainousMission::set_si(double Si)
 {
 	Significance=Si;
 }
 
-int MountainousMission::get_si()
+double MountainousMission::get_si()
 {
 	return Significance;
 }

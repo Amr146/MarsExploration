@@ -1,18 +1,13 @@
 #include "Mission.h"
 
-Mission::Mission()
-{
-
-}
-
-
-Mission::Mission( int ID, int Target_location, int mission_duration, int Si, int fd)
+Mission::Mission( int ID, double Target_location, int mission_duration, double Si, int fd)
 {
 	id=ID;
 	tloc=Target_location;
 	mdur=mission_duration;
 	Significance=Si;
 	FD = fd;
+	R = nullptr;
 }
 
 void Mission::set_id(int ID)
@@ -25,12 +20,12 @@ int Mission::get_id()
 	return id;
 }
 
-void Mission::set_tloc(int Target_location)
+void Mission::set_tloc(double Target_location)
 {
 	tloc=Target_location;
 }
 
-int Mission::get_tloc()
+double Mission::get_tloc()
 {
 	return tloc;
 }
@@ -45,12 +40,12 @@ int Mission::get_mdur()
 	return mdur;
 }
 
-void Mission::set_si(int Si)
+void Mission::set_si(double Si)
 {
 	Significance=Si;
 }
 
-int Mission::get_si()
+double Mission::get_si()
 {
 	return Significance;
 }

@@ -74,7 +74,6 @@ int main()
 
 	char c;
 	cin >> c;
-
 	return 0;
 
 }
@@ -109,8 +108,3 @@ void print(LinkedList<T>& L)
 
 
 
-enum MissionType{
-	E,
-	P,
-	M
-};
