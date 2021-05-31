@@ -6,12 +6,13 @@ Mission::Mission()
 }
 
 
-Mission::Mission( int ID, int Target_location, int mission_duration, int Si)
+Mission::Mission( int ID, int Target_location, int mission_duration, int Si, int fd)
 {
 	id=ID;
 	tloc=Target_location;
 	mdur=mission_duration;
 	Significance=Si;
+	FD = fd;
 }
 
 void Mission::set_id(int ID)
@@ -52,6 +53,24 @@ void Mission::set_si(int Si)
 int Mission::get_si()
 {
 	return Significance;
+}
+
+void Mission::set_FD(int fd)
+{
+	FD = fd;
+}
+int Mission::get_FD()
+{
+	return FD;
+}
+
+void Mission::set_R(Rover* r)
+{
+	R = r;
+}
+Rover* Mission::get_R()
+{
+	return R;
 }
 
 Mission::~Mission()

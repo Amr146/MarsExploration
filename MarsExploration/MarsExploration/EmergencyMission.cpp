@@ -5,7 +5,7 @@ EmergencyMission::EmergencyMission()
 
 }
 
-EmergencyMission::EmergencyMission( int ID, int Target_location, int mission_duration, int Si):Mission(ID,Target_location,mission_duration,Si)
+EmergencyMission::EmergencyMission( int ID, int Target_location, int mission_duration, int Si, int fd):Mission(ID,Target_location,mission_duration,Si, fd)
 {
 	priority=float(Significance/(tloc*mdur));
 }
@@ -58,6 +58,24 @@ void EmergencyMission::set_pri(int Target_location, int mission_duration, int Si
 float EmergencyMission::get_pri()
 {
 	return priority;
+}
+
+void EmergencyMission::set_FD(int fd)
+{
+	FD = fd;
+}
+int EmergencyMission::get_FD()
+{
+	return FD;
+}
+
+void EmergencyMission::set_R(Rover* r)
+{
+	R = r;
+}
+Rover* EmergencyMission::get_R()
+{
+	return R;
 }
 
 EmergencyMission::~EmergencyMission()

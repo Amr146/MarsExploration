@@ -107,3 +107,11 @@ void print(LinkedList<T>& L)
 		cout << L.getEntry(i) << endl;
 	}
 }
+
+
+
+enum MissionType{
+	E,
+	P,
+	M
+};

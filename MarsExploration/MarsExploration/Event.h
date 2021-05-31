@@ -1,0 +1,24 @@
+#pragma once
+#include"DS_TEST.cpp"
+#include"LinkedPriorityQueue.h"
+#include"LinkedList.h"
+#include"LinkedQueue.h"
+#include"EmergencyMission.h"
+#include"PolarMission.h"
+#include"MountainousMission.h"
+class Event{
+protected:
+	//Event day
+	int ED;
+	//mission ID
+	int ID;
+public:
+	Event(int ed, int id)
+	{
+		if(ed > 0)
+			ED = ed;
+		ID = id;
+	}
+	virtual void Execute() = 0;
+	virtual ~Event(){}
+};

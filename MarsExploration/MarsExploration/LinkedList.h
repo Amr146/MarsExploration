@@ -31,6 +31,26 @@ public:
 		return length;
 	}
 
+	/// ////////////////////////////////////////////
+	bool insert(const T& newEntry)
+	{
+		int count = 0;
+		Node<T>* P = Head;
+		while (P)
+		{
+			if ((P->getNext() == NULL) && (count == 0))
+			{
+				Node<T>* R = new Node<T>(data);
+				R->setNext(NULL);
+				P->setNext(R);
+
+				count++;
+			}
+
+			P = P->getNext();
+		}
+	}
+	/// //////////////////////////////////////////////////////
 	bool insert(int newPosition, const T& newEntry)
 	{
 		int index = 0;
@@ -72,12 +92,13 @@ public:
 		return false;
 	}
 
-	bool remove(int position)
+	bool remove(int position, T& removed)
 	{
 		if (position == 0)
 		{
 			Node<T>* temp = head;
 			head = head->getNext();
+			removed = temp->getItem();
 			delete temp;
 			return true;
 		}
@@ -90,6 +111,7 @@ public:
 			{
 				Node<T>* temp = ptr->getNext();
 				prevptr->setNext(temp);
+				removed = ptr->getItem();
 				delete ptr;
 				return true;
 			}

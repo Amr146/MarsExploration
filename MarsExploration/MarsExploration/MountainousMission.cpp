@@ -5,7 +5,7 @@ MountainousMission::MountainousMission()
 
 }
 
-MountainousMission::MountainousMission( int ID, int Target_location, int mission_duration, int Si):Mission(ID,Target_location,mission_duration,Si)
+MountainousMission::MountainousMission( int ID, int Target_location, int mission_duration, int Si, int fd):Mission(ID,Target_location,mission_duration,Si, fd)
 {
 
 }
@@ -48,6 +48,24 @@ void MountainousMission::set_si(int Si)
 int MountainousMission::get_si()
 {
 	return Significance;
+}
+
+void MountainousMission::set_FD(int fd)
+{
+	FD = fd;
+}
+int MountainousMission::get_FD()
+{
+	return FD;
+}
+
+void MountainousMission::set_R(Rover* r)
+{
+	R = r;
+}
+Rover* MountainousMission::get_R()
+{
+	return R;
 }
 
 MountainousMission::~MountainousMission()
