@@ -1,8 +1,8 @@
 //This file is for testing the DS only(will be deleted once we start working in the program)
 #include<iostream>
-#include"DS/LinkedPriorityQueue.h"
-#include"DS/LinkedQueue.h"
-#include"DS/LinkedList.h"
+#include"LinkedPriorityQueue.h"
+#include"LinkedQueue.h"
+#include"LinkedList.h"
 using namespace std;
 
 template<typename T>
@@ -73,7 +73,11 @@ int main()
 	L.remove(0);
 	print(L);
 
+	char c;
+	cin >> c;
+
 	return 0;
+
 }
 
 template<typename T>
