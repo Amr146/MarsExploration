@@ -124,9 +124,10 @@ public:
 
 	void clear()
 	{
+		T temp;
 		while (!isEmpty())
 		{
-			remove(0);
+			remove(0, temp);
 		}
 	}
 

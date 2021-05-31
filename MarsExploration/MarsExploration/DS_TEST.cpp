@@ -54,7 +54,6 @@ int main()
 	LinkedList<int> L;
 
 	cout << L.isEmpty() << endl;
-
 	L.insert(0, 2);
 	L.insert(5, 3);
 	L.insert(1, 7);
@@ -66,11 +65,11 @@ int main()
 	L.insert(1, 6);
 	cout << L.getLength() << endl;
 	print(L);
-	L.remove(1);
+	L.remove(1, temp);
 	print(L);
 	L.replace(0, 7);
 	print(L);
-	L.remove(0);
+	L.remove(0, temp);
 	print(L);
 
 	char c;
