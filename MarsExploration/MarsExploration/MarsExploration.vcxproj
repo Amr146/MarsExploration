@@ -62,13 +62,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="EmergencyMission.h" />
     <ClInclude Include="Emergencyrovers.h" />
     <ClInclude Include="LinkedList.h" />
     <ClInclude Include="LinkedPriorityQueue.h" />
     <ClInclude Include="LinkedQueue.h" />
     <ClInclude Include="ListADT.h" />
+    <ClInclude Include="Mission.h" />
+    <ClInclude Include="MountainousMission.h" />
     <ClInclude Include="Mountainousrovers.h" />
     <ClInclude Include="Node.h" />
+    <ClInclude Include="PolarMission.h" />
     <ClInclude Include="Polarrovers.h" />
     <ClInclude Include="PriorityQueueADT.h" />
     <ClInclude Include="QueueADT.h" />
@@ -76,8 +80,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DS_TEST.cpp" />
+    <ClCompile Include="EmergencyMission.cpp" />
     <ClCompile Include="Emergencyrovers.cpp" />
+    <ClCompile Include="Mission.cpp" />
+    <ClCompile Include="MountainousMission.cpp" />
     <ClCompile Include="Mountainousrovers.cpp" />
+    <ClCompile Include="PolarMission.cpp" />
     <ClCompile Include="Polarrovers.cpp" />
     <ClCompile Include="Rover.cpp" />
   </ItemGroup>
