@@ -489,6 +489,30 @@ LinkedPriorityQueue<Emergencyrovers*>* MarsStation::emergRovers(){
 	return &WERList;
 }
 
+LinkedQueue<PolarMission*>* MarsStation::polarMissions(){
+	return  &WPMList;
+}
+
+LinkedList<MountainousMission*>* MarsStation::mountMissions(){
+	return &WMMList;
+}
+
+LinkedPriorityQueue<EmergencyMission*>* MarsStation::emergMissions(){
+	return &WEMList;
+}
+
+LinkedPriorityQueue<Mission*>* MarsStation::inExec(){
+	return &IEList;
+}
+
+LinkedPriorityQueue<Rover*>* MarsStation::inCheck(){
+	return &ICURList;
+}
+
+LinkedPriorityQueue<Mission*>* MarsStation::compMissions(){
+	return &CMList;
+}
+
 
 int MarsStation::getAutoPromoted(){
 	return auto_promoted;

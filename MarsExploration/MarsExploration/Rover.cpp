@@ -1,7 +1,13 @@
 #include "Rover.h"
+
 Rover:: Rover(){}
+
+int Rover::count = 0;
+
    Rover:: Rover(double speed ,int nom,int checkupDuration )
     {
+		ID = ++count;
+
 		if (speed>0 && nom>0 && checkupDuration>0)
 		{
 			Speed=speed;
@@ -84,6 +90,7 @@ Rover:: Rover(){}
 	{
 		return Numofcheckups;
 	}
+
 	int Rover:: getExecutionDays(double TL,int MD)
 	{
 		//TL is the target loction km
@@ -97,6 +104,18 @@ Rover:: Rover(){}
 	{
        Nomdone++;
     }
+
+
+	void Rover::setid(int id){
+		ID = id;
+	}
+
+	int Rover::getid(){
+		return ID;
+	}
+
+
+
 Rover::~Rover(void)
 {
 }

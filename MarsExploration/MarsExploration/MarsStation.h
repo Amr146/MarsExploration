@@ -1,7 +1,11 @@
 #pragma once
-#ifndef MARSSTATION_H
-#define MARSSTATION_H
-class UI;
+
+
+
+
+#ifndef MARS_CLASS
+#define MARS_CLASS
+
 #include"LinkedPriorityQueue.h"
 #include"LinkedList.h"
 #include"LinkedQueue.h"
@@ -16,8 +20,8 @@ class UI;
 #include"PromotionEvent.h"
 #include"PolarMission.h"
 #include"MountainousMission.h"
-//#include"UI.h"
-class UI;
+#include"UI.h"
+//class UI;
 class MarsStation
 {
 private:
@@ -65,8 +69,22 @@ public:
 	LinkedPriorityQueue<Mission*>* completedMissions();
 
 	LinkedPriorityQueue<Polarrovers*>* polarRovers();
+
 	LinkedPriorityQueue<Mountainousrovers*>* mountRovers();
+
 	LinkedPriorityQueue<Emergencyrovers*>* emergRovers();
+
+	LinkedQueue<PolarMission*>* polarMissions();
+
+	LinkedList<MountainousMission*>* mountMissions();
+
+	LinkedPriorityQueue<EmergencyMission*>* emergMissions();
+
+	LinkedPriorityQueue<Mission*>* inExec();
+
+	LinkedPriorityQueue<Rover*>* inCheck();
+
+	LinkedPriorityQueue<Mission*>* compMissions();
 
 	int getAutoPromoted();
 

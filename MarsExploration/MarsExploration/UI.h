@@ -1,6 +1,11 @@
 #pragma once
-#ifndef UI_H
-#define UI_H
+
+
+
+#ifndef UI_CLASS
+#define UI_CLASS
+
+
 //#include "MarsStation.h"
 class MarsStation;
 class UI
@@ -12,8 +17,7 @@ public:
 	UI(MarsStation* st);
 	void loadInputFile();
 	void createOutputFile();
-	void interactiveMode();
-	void stepByStepMode();
+	void printDataOfDay(int day);
 	void silentMode();
 };
 #endif
