@@ -1,4 +1,6 @@
 #pragma once
+#ifndef MARS_CLASS
+#define MARS_CLASS
 #include"LinkedPriorityQueue.h"
 #include"LinkedList.h"
 #include"LinkedQueue.h"
@@ -68,3 +70,4 @@ public:
 
 	~MarsStation();
 };
+#endif
