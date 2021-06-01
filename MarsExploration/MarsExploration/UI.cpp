@@ -1,6 +1,7 @@
 #include "UI.h"
 #include <iostream>
 #include <fstream>
+#include "MarsStation.h"
 using namespace std;
 
 UI::UI(MarsStation* st){
@@ -61,7 +62,7 @@ void UI::createOutputFile(){
 	LinkedPriorityQueue<Emergencyrovers*>* E = station->emergRovers();
 	
 	ofstream outputFile("outputFile.txt", ios::out);
-	if(outputFile.is_open){
+	if(outputFile.is_open()){
 		outputFile << "CD ID FD WD ED\n";
 		Mission* mission;
 		Polarrovers* pRoverPtr;

@@ -21,6 +21,15 @@ public:
 			ED = 0;
 		ID = id;
 	}
+	void setED( int D)
+	{
+		if (D>0)
+			ED=D;
+	}
+	virtual int getED()
+	{
+		return ED;
+	}
 	virtual void Execute(LinkedPriorityQueue<EmergencyMission*> &we, LinkedQueue<PolarMission*> &wp, LinkedList<MountainousMission*>& wm) = 0;
 	virtual ~Event(){}
 };

@@ -59,16 +59,28 @@ Polarrovers::Polarrovers(double speed ,int nom,int checkupDuration):Rover(speed,
 	{
 		return Nomdone;
 	}
-	void Polarrovers:: setNumofcheckups (int numofcheckups)
-	{
-		 if (numofcheckups>0)
-			 Numofcheckups=numofcheckups;
-	}
+	void Polarrovers:: incrementNumofcheckups()
+	 {
+		 Numofcheckups++;
+	 }
 
 	int Polarrovers:: getNumofcheckups()
 	{
 		return Numofcheckups;
 	}
+	int Polarrovers:: getExecutionDays(double TL,int MD)
+	{
+		//TL is the target loction km
+		//MD is the mission duration in days
+		int z;
+		z=int (2*(TL/Speed));
+		z=int (z/25);
+		return (z+MD);
+	}
+	void Polarrovers:: incrementmissionsdone()
+	{
+       Nomdone++;
+    }
 Polarrovers::~Polarrovers(void)
 {
 }

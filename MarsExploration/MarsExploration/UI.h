@@ -1,7 +1,11 @@
 #pragma once
-#include "MarsStation.h"
+#ifndef UI_H
+#define UI_H
+//#include "MarsStation.h"
+class MarsStation;
 class UI
 {
+private:
 	MarsStation* station;
 
 public:
@@ -12,3 +16,4 @@ public:
 	void stepByStepMode();
 	void silentMode();
 };
+#endif

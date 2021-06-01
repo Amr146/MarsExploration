@@ -1,4 +1,5 @@
 #include "Rover.h"
+Rover:: Rover(){}
    Rover:: Rover(double speed ,int nom,int checkupDuration )
     {
 		if (speed>0 && nom>0 && checkupDuration>0)
@@ -73,17 +74,29 @@
 	{
 		return Nomdone;
 	}
-	void Rover:: setNumofcheckups (int numofcheckups)
-	{
-		 if (numofcheckups>0)
-			 Numofcheckups=numofcheckups;
-	}
+	 void Rover:: incrementNumofcheckups()
+	 {
+		 Numofcheckups++;
+	 }
+	
 
 	int Rover:: getNumofcheckups()
 	{
 		return Numofcheckups;
 	}
-
+	int Rover:: getExecutionDays(double TL,int MD)
+	{
+		//TL is the target loction km
+		//MD is the mission duration in days
+		int z;
+		z=int (2*(TL/Speed));
+		z=int (z/25);
+		return (z+MD);
+	}
+	void Rover:: incrementmissionsdone()
+	{
+       Nomdone++;
+    }
 Rover::~Rover(void)
 {
 }

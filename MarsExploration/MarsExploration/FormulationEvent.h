@@ -15,6 +15,9 @@ private:
     double SIG;
 public:
     FormulationEvent(MissionType MT, int ed, int id, double Tloc, int Mdur, double Sig);
+	
+	int getED();
+	
     void Execute(LinkedPriorityQueue<EmergencyMission*> &we, LinkedQueue<PolarMission*> &wp, LinkedList<MountainousMission*>& wm);
     ~FormulationEvent();
 };

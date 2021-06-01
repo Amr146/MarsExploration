@@ -59,16 +59,28 @@ Emergencyrovers::Emergencyrovers(double speed ,int nom,int checkupDuration):Rove
 	{
 		return Nomdone;
 	}
-	void Emergencyrovers:: setNumofcheckups (int numofcheckups)
-	{
-		 if (numofcheckups>0)
-			 Numofcheckups=numofcheckups;
-	}
+	void Emergencyrovers:: incrementNumofcheckups()
+	 {
+		 Numofcheckups++;
+	 }
 
 	int Emergencyrovers:: getNumofcheckups()
 	{
 		return Numofcheckups;
 	}
+	int Emergencyrovers:: getExecutionDays(double TL,int MD)
+	{
+		//TL is the target loction km
+		//MD is the mission duration in days
+		int z;
+		z=int (2*(TL/Speed));
+		z=int (z/25);
+		return (z+MD);
+	}
+	void Emergencyrovers:: incrementmissionsdone()
+	{
+       Nomdone++;
+    }
 
 Emergencyrovers::~Emergencyrovers(void)
 {

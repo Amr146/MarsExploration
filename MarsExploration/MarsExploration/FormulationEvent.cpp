@@ -16,6 +16,10 @@ FormulationEvent::FormulationEvent(MissionType MT, int ed, int id, double Tloc, 
 		MDUR = 0;
 	SIG = Sig;
 }
+int FormulationEvent:: getED()
+{
+	return ED;
+}
 void FormulationEvent::Execute(LinkedPriorityQueue<EmergencyMission*>& we, LinkedQueue<PolarMission*>& wp, LinkedList<MountainousMission*>& wm)
 {
 	if (mt == MissionType::E)

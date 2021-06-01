@@ -62,6 +62,20 @@ Rover* MountainousMission::get_R()
 {
 	return R;
 }
+void MountainousMission:: setAutoP(int D)
+{
+	if (D>0)
+		AutoP=D;
+}
+int MountainousMission:: getAutoP()
+{
+	return AutoP;
+}
+	
+int MountainousMission:: getAutoPDay()
+{
+	return (AutoP+FD);
+}
 
 MountainousMission::~MountainousMission()
 {

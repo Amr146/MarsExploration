@@ -10,6 +10,7 @@ protected:
 	int Nomdone;     //number of missions done by rover before its checkup
 	int Numofcheckups; //number of checkups done fore the rover
 public:
+	Rover();
 	Rover(double speed ,int nom,int checkupDuration );
 	virtual void setspeed(double speed);
 	virtual double getspeed();
@@ -23,10 +24,10 @@ public:
 	virtual int getFinishMaintenanceday();
 	virtual void setNomdone (int nomdone);
 	virtual int getNomdone();
-	virtual void setNumofcheckups (int numofcheckups);
+	virtual void incrementNumofcheckups();
 	virtual int getNumofcheckups();
-
-
+	virtual int getExecutionDays(double TL,int MD);  //the needed time to reach target location and do the mission and return back to the station
+	virtual void incrementmissionsdone();  //increment Nomdone to use it in checkup
 	~Rover(void);
 };
 

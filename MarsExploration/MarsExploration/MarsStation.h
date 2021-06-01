@@ -1,4 +1,7 @@
 #pragma once
+#ifndef MARSSTATION_H
+#define MARSSTATION_H
+class UI;
 #include"LinkedPriorityQueue.h"
 #include"LinkedList.h"
 #include"LinkedQueue.h"
@@ -13,14 +16,15 @@
 #include"PromotionEvent.h"
 #include"PolarMission.h"
 #include"MountainousMission.h"
-#include"UI.h"
-
+//#include"UI.h"
+class UI;
 class MarsStation
 {
 private:
 	UI* ui;
 	int autoP;
 	int auto_promoted;
+	int Day;
 protected:
 	LinkedPriorityQueue<Event*> EventList;		//	why not only queue ?
 	LinkedQueue<PolarMission*> WPMList;
@@ -68,3 +72,4 @@ public:
 
 	~MarsStation();
 };
+#endif

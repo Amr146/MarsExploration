@@ -2,6 +2,8 @@
 #include "Mission.h"
 class MountainousMission: public Mission
 {
+	int AutoP;
+	int AutoPDay;   //the day that the mission get promoted auto(AutoPDay=FD+AutoP)
 public:
 	MountainousMission( int ID, double Target_location, int mission_duration, double Si, int fd);
 	virtual void set_id(int ID);
@@ -16,5 +18,9 @@ public:
 	virtual int get_FD();
 	virtual void set_R(Rover* r);
 	virtual Rover* get_R();
+	void setAutoP(int D);
+	int getAutoP();
+	//void setAutoPDay(int D);
+	int getAutoPDay();
 	~MountainousMission();
 };

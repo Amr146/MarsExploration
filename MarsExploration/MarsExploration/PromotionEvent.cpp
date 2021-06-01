@@ -3,6 +3,10 @@
 PromotionEvent::PromotionEvent(int ed, int id) : Event(ed, id)
 {
 }
+int PromotionEvent:: getED()
+{
+	return ED;
+}
 void PromotionEvent::Execute(LinkedPriorityQueue<EmergencyMission*> &we, LinkedQueue<PolarMission*> &wp, LinkedList<MountainousMission*>& wm)
 {
 	int index;

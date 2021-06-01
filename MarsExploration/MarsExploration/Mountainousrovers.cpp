@@ -58,17 +58,28 @@ Mountainousrovers::Mountainousrovers(double speed ,int nom,int checkupDuration):
 	{
 		return Nomdone;
 	}
-	void Mountainousrovers:: setNumofcheckups (int numofcheckups)
-	{
-		 if (numofcheckups>0)
-			 Numofcheckups=numofcheckups;
-	}
+	void Mountainousrovers:: incrementNumofcheckups()
+	 {
+		 Numofcheckups++;
+	 }
 
 	int Mountainousrovers:: getNumofcheckups()
 	{
 		return Numofcheckups;
 	}
-
+	int Mountainousrovers:: getExecutionDays(double TL,int MD)
+	{
+		//TL is the target loction km
+		//MD is the mission duration in days
+		int z;
+		z=int (2*(TL/Speed));
+		z=int (z/25);
+		return (z+MD);
+	}
+	void Mountainousrovers:: incrementmissionsdone()
+	{
+       Nomdone++;
+    }
 Mountainousrovers::~Mountainousrovers(void)
 {
 }

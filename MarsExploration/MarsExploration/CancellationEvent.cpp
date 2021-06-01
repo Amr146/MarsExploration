@@ -3,6 +3,10 @@
 CancellationEvent::CancellationEvent(int ed, int id): Event(ed, id)
 {
 }
+int CancellationEvent:: getED()
+{
+	return ED;
+}
 void CancellationEvent::Execute(LinkedPriorityQueue<EmergencyMission*> &we, LinkedQueue<PolarMission*> &wp, LinkedList<MountainousMission*>& wm)
 {
 	int index;

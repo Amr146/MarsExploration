@@ -16,8 +16,10 @@ public:
 	virtual int getFinishMaintenanceday();
 	virtual void setNomdone (int nomdone);
 	virtual int getNomdone();
-	virtual void setNumofcheckups (int numofcheckups);
+	virtual void incrementNumofcheckups();
 	virtual int getNumofcheckups();
+	virtual int getExecutionDays(double TL,int MD);
+	virtual void incrementmissionsdone();
 	~Mountainousrovers(void);
 };
 

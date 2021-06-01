@@ -47,7 +47,7 @@ double EmergencyMission::get_si()
 
 void EmergencyMission::set_pri(int Target_location, int mission_duration, int Si)
 {
-	priority=float(Significance/(double(tloc)*mdur));
+	priority=float(Significance/(double(tloc)*mdur*FD));
 }
 
 float EmergencyMission::get_pri()
