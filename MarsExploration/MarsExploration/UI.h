@@ -12,8 +12,7 @@ public:
 	UI(MarsStation* st);
 	void loadInputFile();
 	void createOutputFile();
-	void interactiveMode();
-	void stepByStepMode();
+	void printDataOfDay(int day);
 	void silentMode();
 };
 #endif

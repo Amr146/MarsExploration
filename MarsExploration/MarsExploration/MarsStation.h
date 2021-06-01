@@ -63,8 +63,22 @@ public:
 	LinkedPriorityQueue<Mission*>* completedMissions();
 
 	LinkedPriorityQueue<Polarrovers*>* polarRovers();
+
 	LinkedPriorityQueue<Mountainousrovers*>* mountRovers();
+
 	LinkedPriorityQueue<Emergencyrovers*>* emergRovers();
+
+	LinkedQueue<PolarMission*>* polarMissions();
+
+	LinkedList<MountainousMission*>* mountMissions();
+
+	LinkedPriorityQueue<EmergencyMission*>* emergMissions();
+
+	LinkedPriorityQueue<Mission*>* inExec();
+
+	LinkedPriorityQueue<Rover*>* inCheck();
+
+	LinkedPriorityQueue<Mission*>* compMissions();
 
 	int getAutoPromoted();
 

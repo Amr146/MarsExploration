@@ -1,7 +1,10 @@
 #pragma once
 class Rover
 {
+	static int count;
 protected:
+	
+	int ID;
 	double Speed;
 	int Nom;   //=4   //number of missions can be done before checkup
 	int CheckupDuration;  //number of days to finish checkup
@@ -25,7 +28,8 @@ public:
 	virtual int getNomdone();
 	virtual void setNumofcheckups (int numofcheckups);
 	virtual int getNumofcheckups();
-
+	virtual void setid(int id);
+	virtual int getid();
 
 	~Rover(void);
 };
