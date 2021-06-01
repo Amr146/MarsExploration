@@ -5,7 +5,7 @@ class CancellationEvent :
 {
 public:
     CancellationEvent(int ed, int id);
-    void Execute(LinkedList<MountainousMission*> &wm);
+    void Execute(LinkedPriorityQueue<EmergencyMission*> &we, LinkedQueue<PolarMission*> &wp, LinkedList<MountainousMission*>& wm);
     ~CancellationEvent();
 };
 

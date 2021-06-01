@@ -21,6 +21,6 @@ public:
 			ED = 0;
 		ID = id;
 	}
-	virtual void Execute() = 0;
+	virtual void Execute(LinkedPriorityQueue<EmergencyMission*> &we, LinkedQueue<PolarMission*> &wp, LinkedList<MountainousMission*>& wm) = 0;
 	virtual ~Event(){}
 };

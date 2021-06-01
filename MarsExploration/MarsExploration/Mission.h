@@ -8,6 +8,9 @@ protected:
 	int mdur;
 	double Significance;
 	int FD;
+	int WD;
+	int CD;
+	int ED;
 	// pointer to rover
 	Rover* R;
 public:
@@ -24,5 +27,11 @@ public:
 	virtual int get_FD();
 	virtual void set_R(Rover* r);
 	virtual Rover* get_R();
+	virtual void set_WD(int wd);
+	virtual int get_WD();
+	virtual void set_CD(int cd);
+	virtual int get_CD();
+	virtual void set_ED(int ed);
+	virtual int get_ED();
 	~Mission();
 };

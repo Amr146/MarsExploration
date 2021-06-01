@@ -3,7 +3,7 @@
 CancellationEvent::CancellationEvent(int ed, int id): Event(ed, id)
 {
 }
-void CancellationEvent::Execute(LinkedList<MountainousMission*>& wm)
+void CancellationEvent::Execute(LinkedPriorityQueue<EmergencyMission*> &we, LinkedQueue<PolarMission*> &wp, LinkedList<MountainousMission*>& wm)
 {
 	int index;
 	MountainousMission* temp;

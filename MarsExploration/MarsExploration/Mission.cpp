@@ -68,6 +68,31 @@ Rover* Mission::get_R()
 	return R;
 }
 
+void Mission::set_WD(int wd){
+	WD = wd;
+}
+
+int Mission::get_WD(){
+	return WD;
+}
+
+void Mission::set_CD(int cd){
+	CD = cd;
+}
+
+int Mission::get_CD(){
+	return CD;
+}
+
+void Mission::set_ED(int ed){
+	ED = ed;
+}
+
+int Mission::get_ED(){
+	return ED;
+}
+
+
 Mission::~Mission()
 {
 

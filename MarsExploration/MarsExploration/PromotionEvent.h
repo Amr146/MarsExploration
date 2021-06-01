@@ -2,8 +2,9 @@
 #include"Event.h"
 class PromotionEvent : public Event
 {
+public:
     PromotionEvent(int ed, int id);
-    void Execute(LinkedList<MountainousMission*>& wm, LinkedPriorityQueue<EmergencyMission*>& we);
+    void Execute(LinkedPriorityQueue<EmergencyMission*> &we, LinkedQueue<PolarMission*> &wp, LinkedList<MountainousMission*>& wm);
     ~PromotionEvent();
 };
 
