@@ -36,6 +36,9 @@ public:
 	{
 		int count = 0;
 		Node<T>* P = head;
+
+		//	need edit for head = nullptr
+
 		while (P)
 		{
 			if ((P->getNext() == nullptr) && (count == 0))
@@ -97,30 +100,32 @@ public:
 
 	bool remove(int position, T& removed)
 	{
-		if (position == 0)
-		{
-			Node<T>* temp = head;
-			head = head->getNext();
-			removed = temp->getItem();
-			delete temp;
-			return true;
-		}
-		Node<T>* ptr = head->getNext();
-		Node<T>* prevptr = head;
-		int index = 1;
-		while (ptr)
-		{
-			if (index == position)
+		if(getLength()){				//	edited
+			if (position == 0)
 			{
-				Node<T>* temp = ptr->getNext();
-				prevptr->setNext(temp);
-				removed = ptr->getItem();
-				delete ptr;
+				Node<T>* temp = head;
+				head = head->getNext();
+				removed = temp->getItem();
+				delete temp;
 				return true;
 			}
-			index++;
-			prevptr = ptr;
-			ptr = ptr->getNext();
+			Node<T>* ptr = head->getNext();
+			Node<T>* prevptr = head;
+			int index = 1;
+			while (ptr)
+			{
+				if (index == position)
+				{
+					Node<T>* temp = ptr->getNext();
+					prevptr->setNext(temp);
+					removed = ptr->getItem();
+					delete ptr;
+					return true;
+				}
+				index++;
+				prevptr = ptr;
+				ptr = ptr->getNext();
+			}
 		}
 		return false;
 	}

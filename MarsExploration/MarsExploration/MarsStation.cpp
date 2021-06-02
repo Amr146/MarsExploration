@@ -423,9 +423,9 @@ void MarsStation::Simulate()
 				condition7=false;
 		}
 		////////////////////////////////////////////////////////////////////////////////////////////////
+		ui->printDataOfDay(Day);
 		Day++;
 	}
-
 }
 
 void MarsStation::ReadInput(){
@@ -463,14 +463,17 @@ void MarsStation::setAutoP(int n){
 
 void MarsStation::addFEvent(MissionType type, int ed, int id, int tloc, int mdur, int sig){
 	FormulationEvent* fEvent = new FormulationEvent(type, ed, id, tloc, mdur, sig);
+	EventList.add(fEvent, 10.0/ed);					//	what is the priority of this queue
 }
 
 void MarsStation::addXEvent(int ed, int id){
 	CancellationEvent* xEvent = new CancellationEvent(ed, id);
+	EventList.add(xEvent, 10.0/ed);					//	what is the priority of this queue
 }
 
 void MarsStation::addPEvent(int ed, int id){
 	PromotionEvent* pEvent = new PromotionEvent(ed, id);
+	EventList.add(pEvent, 10.0/ed);					//	what is the priority of this queue
 }
 
 LinkedPriorityQueue<Mission*>* MarsStation::completedMissions(){
@@ -519,5 +522,6 @@ int MarsStation::getAutoPromoted(){
 }
 
 MarsStation::~MarsStation(){
+	ui->createOutputFile();
 	delete ui;
 }

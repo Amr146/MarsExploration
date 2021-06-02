@@ -37,10 +37,10 @@ void UI::loadInputFile(){
 		for(int i = 1; i <= N; i++){
 			inputFile >> eventType;
 			if(eventType == 'F'){
-				inputFile >> ed >> id;
 				char mType;
 				inputFile >> mType;
 				MissionType type = (mType == 'E')? MissionType::E : ((mType == 'P')? MissionType::P : MissionType::M);
+				inputFile >> ed >> id;
 				int tloc, mdur, sig;
 				inputFile >> tloc >> mdur >> sig;
 				station->addFEvent(type, ed, id, tloc, mdur, sig);		//	creating formulation event
@@ -87,7 +87,7 @@ void UI::createOutputFile(){
 		while(E->remove(eRoverPtr))
 			Erovers++;
 
-		while(!CM->remove(mission)){
+		while(CM->remove(mission)){
 			totalMissions++;
 			if(dynamic_cast<EmergencyMission*>(mission))
 				Emission++;
@@ -107,10 +107,15 @@ void UI::createOutputFile(){
 		outputFile << "Missions: " << totalMissions << " [M: " << Mmission << ", P: " << Pmission << ", E: " << Emission << "]\n";
 
 		outputFile << "Rovers: " << Provers+Mrovers+Erovers << "[M: " << Mrovers << ", P: " << Provers << ", E: " << Erovers << "]\n";
+		if(!totalMissions){
+			outputFile << "Avg Wait= " << 0 << ", Avg Exec = " << 0 << "\n";
 
-		outputFile << "Avg Wait= " << 1.0*totalWait/totalMissions << ", Avg Exec = " << 1.0*totalExecution/totalMissions << "\n";
+			outputFile << "Auto-Promoted: " << 0 << "%\n"; 
+		}else{
+			outputFile << "Avg Wait= " << 1.0*totalWait/totalMissions << ", Avg Exec = " << 1.0*totalExecution/totalMissions << "\n";
 
-		outputFile << "Auto-Promoted: " << 100.0*station->getAutoPromoted()/totalMissions << "%\n"; 
+			outputFile << "Auto-Promoted: " << 100.0*station->getAutoPromoted()/totalMissions << "%\n"; 
+		}
 		
 	}
 	outputFile.close();
@@ -132,7 +137,7 @@ void UI::printDataOfDay(int day){
 	LinkedPriorityQueue<Mission*> CMList(*(station->completedMissions()));			//	Deep copy of in in completed missions
 	
 	string dayDetails = "[";
-	int n;
+	int n = 0;
 
 	PolarMission* pMissionPtr;
 	MountainousMission* mMissionPtr;
@@ -153,7 +158,7 @@ void UI::printDataOfDay(int day){
 	//	Getting IDs of waiting emerg missions
 	while(WEMList.remove(eMissionPtr)){
 		n++;
-		dayDetails += (eMissionPtr->get_id()+",");
+		dayDetails += (to_string(eMissionPtr->get_id())+",");
 	}
 	if(dayDetails.back() == ',')
 		dayDetails.pop_back();
@@ -162,7 +167,7 @@ void UI::printDataOfDay(int day){
 	//	Getting IDs of waiting polar missions
 	while(WPMList.dequeue(pMissionPtr)){
 		n++;
-		dayDetails += (pMissionPtr->get_id()+",");
+		dayDetails += (to_string(pMissionPtr->get_id())+",");
 	}
 	if(dayDetails.back() == ',')
 		dayDetails.pop_back();
@@ -170,9 +175,9 @@ void UI::printDataOfDay(int day){
 
 	//	Getting IDs of waiting mount missions
 	int m = 0;
-	while(WMMList.remove(m++ ,mMissionPtr)){
+	while(WMMList.remove(m++ ,mMissionPtr)){			//	how to remove each element in this list??
 		n++;
-		dayDetails += (mMissionPtr->get_id()+",");
+		dayDetails += (to_string(mMissionPtr->get_id())+",");
 	}
 	if(dayDetails.back() == ',')
 		dayDetails.pop_back();
@@ -190,13 +195,13 @@ void UI::printDataOfDay(int day){
 	while(inExecution.remove(mission)){
 		n++;
 		if(dynamic_cast<EmergencyMission*>(mission)){
-			dayDetails += (mission->get_id() + "/" + mission->get_R()->getid());
+			dayDetails += (to_string(mission->get_id()) + "/" + to_string(mission->get_R()->getid()));
 			dayDetails += ",";
 		}else if(dynamic_cast<PolarMission*>(mission)){
-			dayDetails2 += (mission->get_id() + "/" + mission->get_R()->getid());
+			dayDetails2 += (to_string(mission->get_id()) + "/" + to_string(mission->get_R()->getid()));
 			dayDetails2 += ",";
 		}else if(dynamic_cast<MountainousMission*>(mission)){
-			dayDetails3 += (mission->get_id() + "/" + mission->get_R()->getid());
+			dayDetails3 += (to_string(mission->get_id()) + "/" + to_string(mission->get_R()->getid()));
 			dayDetails3 += ",";
 		}
 	}
@@ -220,7 +225,7 @@ void UI::printDataOfDay(int day){
 	//	Getting IDs of waiting emerg rovers
 	while(WERList.remove(eRoverPtr)){
 		n++;
-		dayDetails += (eRoverPtr->getid()+",");
+		dayDetails += (to_string(eRoverPtr->getid())+",");
 	}
 	if(dayDetails.back() == ',')
 		dayDetails.pop_back();
@@ -230,7 +235,7 @@ void UI::printDataOfDay(int day){
 	m = 0;
 	while(WPRList.remove(pRoverPtr)){
 		n++;
-		dayDetails += (pRoverPtr->getid()+",");
+		dayDetails += (to_string(pRoverPtr->getid())+",");
 	}
 	if(dayDetails.back() == ',')
 		dayDetails.pop_back();
@@ -239,13 +244,13 @@ void UI::printDataOfDay(int day){
 	//	Getting IDs of waiting mount rovers
 	while(WMRList.remove(mRoverPtr)){
 		n++;
-		dayDetails += (mRoverPtr->getid()+",");
+		dayDetails += (to_string(mRoverPtr->getid()) + ",");
 	}
 	if(dayDetails.back() == ',')
 		dayDetails.pop_back();
 	dayDetails += "}";
 
-	cout << n << " Available Roverss: " << dayDetails << endl;
+	cout << n << " Available Rovers: " << dayDetails << endl;
 
 	/////////////////////////////////////////////////////////////
 	//	printing in checkup rovers
@@ -257,11 +262,11 @@ void UI::printDataOfDay(int day){
 	while(ICURList.remove(rover)){
 		n++;
 		if(dynamic_cast<Emergencyrovers*>(rover))
-			dayDetails += (rover->getid() + ",");
+			dayDetails += (to_string(rover->getid()) + ",");
 		else if(dynamic_cast<Polarrovers*>(rover))
-			dayDetails2 += (rover->getid() + ",");
+			dayDetails2 += (to_string(rover->getid()) + ",");
 		else if(dynamic_cast<Mountainousrovers*>(rover))
-			dayDetails3 += (rover->getid() + ",");
+			dayDetails3 += (to_string(rover->getid()) + ",");
 	}
 
 	if(dayDetails.back() == ',')
@@ -287,11 +292,11 @@ void UI::printDataOfDay(int day){
 	while(CMList.remove(mission)){
 		n++;
 		if(dynamic_cast<EmergencyMission*>(mission))
-			dayDetails += (mission->get_id() + ",");
+			dayDetails += (to_string(mission->get_id()) + ",");
 		else if(dynamic_cast<PolarMission*>(mission))
-			dayDetails2 += (mission->get_id() + ",");
+			dayDetails2 += (to_string(mission->get_id()) + ",");
 		else if(dynamic_cast<MountainousMission*>(mission))
-			dayDetails3 += (mission->get_id() + ",");
+			dayDetails3 += (to_string(mission->get_id()) + ",");
 	}
 
 	if(dayDetails.back() == ',')
@@ -305,7 +310,7 @@ void UI::printDataOfDay(int day){
 	dayDetails2 += ")";
 	dayDetails3 += "}";
 
-	cout << n << " Completed Missions: " << dayDetails << " " << dayDetails2 << " " << dayDetails3 << endl;
+	cout << n << " Completed Missions: " << dayDetails << " " << dayDetails2 << " " << dayDetails3 << endl << endl << endl;
 }
 
 void UI::silentMode(){
