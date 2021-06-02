@@ -19,7 +19,7 @@ void MarsStation::Simulate()
 			Rover *R;
 			
 			ICURList.peek(R);
-			if (R->getFinishcheckupday() == Day)
+			if (int (R->getFinishcheckupday()) == Day)
 			{
 				ICURList.remove(R);
 				
@@ -50,7 +50,7 @@ void MarsStation::Simulate()
 			Rover *R;
 			
 			IMRList.peek(R);
-			if (R->getFinishMaintenanceday() == Day)
+			if (int (R->getFinishMaintenanceday()) == Day)
 			{
 				IMRList.remove(R);
 				Emergencyrovers* R1 = dynamic_cast<Emergencyrovers*>(R);
