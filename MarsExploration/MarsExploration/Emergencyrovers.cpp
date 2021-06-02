@@ -74,8 +74,8 @@ Emergencyrovers::Emergencyrovers(double speed ,int nom,int checkupDuration):Rove
 		//MD is the mission duration in days
 		int z;
 		z=int (2*(TL/Speed));
-		z=int (z/25);
-		return (z+MD);
+		int m=int (z/25);
+		return (m+MD);
 	}
 	void Emergencyrovers:: incrementmissionsdone()
 	{

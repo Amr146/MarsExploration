@@ -12,12 +12,19 @@ void CancellationEvent::Execute(LinkedPriorityQueue<EmergencyMission*> &we, Link
 	int index;
 	MountainousMission* temp;
 	int N = wm.getLength();
+	bool z=false;
 	for (index = 0; index < N; index++)
 	{
 		if (wm.getEntry(index)->get_id() == ID)
+		{
+			z=true;
 			break;
+		}
 	}
+	if (z)
+	{
 	wm.remove(index, temp);
 	delete temp;
+	}
 }
 CancellationEvent::~CancellationEvent(){}

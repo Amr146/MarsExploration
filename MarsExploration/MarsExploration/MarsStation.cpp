@@ -1,5 +1,6 @@
 #include "MarsStation.h"
 #include"UI.h"
+
 MarsStation::MarsStation(){
 	ui = new UI(this);
 	auto_promoted = 0;
@@ -103,7 +104,8 @@ void MarsStation::Simulate()
 		//////////////////////////////////////////////////////////
 
 		// we should handle the AutoP for mountains mission here
-		while (!WMMList.isEmpty())
+		bool z=true;
+		while (!WMMList.isEmpty()&&z)
 		{
 			int index;
 	  MountainousMission* temp;
@@ -112,11 +114,14 @@ void MarsStation::Simulate()
 	{
 		if (WMMList.getEntry(index)->getAutoPDay() == Day)
 		{
+			z=true;
 			WMMList.remove(index, temp);
 	EmergencyMission* newMission = new EmergencyMission(temp->get_id(), temp->get_tloc(), temp->get_mdur(), temp->get_si(), temp->get_FD());
 	delete temp;
 	WEMList.add(newMission, newMission->get_pri());
 		}
+		else
+			z=false;
 	}
 	
 
@@ -138,7 +143,7 @@ void MarsStation::Simulate()
 				int D =R->getExecutionDays(ME->get_tloc(),ME->get_mdur());
 				ME->set_ED(D);
 				ME->set_CD(ME->get_WD()+ME->get_FD()+ME->get_ED());
-				IEList.add(ME,(1/(ME->get_CD())));
+				IEList.add(ME,(1.0/(ME->get_CD())));
 			}
 			else if (!WMRList.isEmpty())
 			{
@@ -150,7 +155,7 @@ void MarsStation::Simulate()
 				int D =R->getExecutionDays(ME->get_tloc(),ME->get_mdur());
 				ME->set_ED(D);
 				ME->set_CD(ME->get_WD()+ME->get_FD()+ME->get_ED());
-				IEList.add(ME,(1/(ME->get_CD())));
+				IEList.add(ME,(1.0/(ME->get_CD())));
 			}
 			else if (!WPRList.isEmpty())
 			{
@@ -162,7 +167,7 @@ void MarsStation::Simulate()
 				int D =R->getExecutionDays(ME->get_tloc(),ME->get_mdur());
 				ME->set_ED(D);
 				ME->set_CD(ME->get_WD()+ME->get_FD()+ME->get_ED());
-				IEList.add(ME,(1/(ME->get_CD())));
+				IEList.add(ME,(1.0/(ME->get_CD())));
 			}
 			else if (!IMRList.isEmpty())
 			{
@@ -180,12 +185,12 @@ void MarsStation::Simulate()
 				int D =R1->getExecutionDays(ME->get_tloc(),ME->get_mdur());
 				ME->set_ED(D);
 				ME->set_CD(ME->get_WD()+ME->get_FD()+ME->get_ED());
-				IEList.add(ME,(1/(ME->get_CD())));
+				IEList.add(ME,(1.0/(ME->get_CD())));
 				found=true;
                      }     
 				else
 				{
-					temp.add(R,1/(R->getFinishMaintenanceday()));
+					temp.add(R,1.0/(R->getFinishMaintenanceday()));
 				}
 				}
 
@@ -200,12 +205,12 @@ void MarsStation::Simulate()
 				int D =R2->getExecutionDays(ME->get_tloc(),ME->get_mdur());
 				ME->set_ED(D);
 				ME->set_CD(ME->get_WD()+ME->get_FD()+ME->get_ED());
-				IEList.add(ME,(1/(ME->get_CD())));
+				IEList.add(ME,(1.0/(ME->get_CD())));
 				found=true;
                      }     
 				else
 				{
-					IMRList.add(R,1/(R->getFinishMaintenanceday()));
+					IMRList.add(R,1.0/(R->getFinishMaintenanceday()));
 				}
 				}
 				while (!IMRList.isEmpty()&& !found)
@@ -219,18 +224,18 @@ void MarsStation::Simulate()
 				int D =R3->getExecutionDays(ME->get_tloc(),ME->get_mdur());
 				ME->set_ED(D);
 				ME->set_CD(ME->get_WD()+ME->get_FD()+ME->get_ED());
-				IEList.add(ME,(1/(ME->get_CD())));
+				IEList.add(ME,(1.0/(ME->get_CD())));
 				found=true;
                      }     
 				else
 				{
-					temp.add(R,1/(R->getFinishMaintenanceday()));
+					temp.add(R,1.0/(R->getFinishMaintenanceday()));
 				}
 				}
 				while (!temp.isEmpty())
 				{
 					temp.remove(R);
-					IMRList.add(R,R->getFinishMaintenanceday());
+					IMRList.add(R,(1.0/R->getFinishMaintenanceday()));
 				}
 				condition4=found;
 			}
@@ -254,7 +259,7 @@ void MarsStation::Simulate()
 				int D =R->getExecutionDays(ME->get_tloc(),ME->get_mdur());
 				ME->set_ED(D);
 				ME->set_CD(ME->get_WD()+ME->get_FD()+ME->get_ED());
-				IEList.add(ME,(1/(ME->get_CD())));
+				IEList.add(ME,(1.0/(ME->get_CD())));
 			}
 			 else if (!IMRList.isEmpty())
 			{
@@ -273,7 +278,7 @@ void MarsStation::Simulate()
 				int D =R3->getExecutionDays(ME->get_tloc(),ME->get_mdur());
 				ME->set_ED(D);
 				ME->set_CD(ME->get_WD()+ME->get_FD()+ME->get_ED());
-				IEList.add(ME,(1/(ME->get_CD())));
+				IEList.add(ME,(1.0/(ME->get_CD())));
 				found=true;
                      }     
 				else
@@ -284,7 +289,7 @@ void MarsStation::Simulate()
 				while (!temp.isEmpty())
 				{
 					temp.remove(R);
-					IMRList.add(R,R->getFinishMaintenanceday());
+					IMRList.add(R,(1.0/R->getFinishMaintenanceday()));
 				}
 				condition5=found;
 			 }
@@ -307,7 +312,7 @@ void MarsStation::Simulate()
 				int D =R->getExecutionDays(ME->get_tloc(),ME->get_mdur());
 				ME->set_ED(D);
 				ME->set_CD(ME->get_WD()+ME->get_FD()+ME->get_ED());
-				IEList.add(ME,(1/(ME->get_CD())));
+				IEList.add(ME,(1.0/(ME->get_CD())));
 			}
 			else if (!WERList.isEmpty())
 			{
@@ -319,7 +324,7 @@ void MarsStation::Simulate()
 				int D =R->getExecutionDays(ME->get_tloc(),ME->get_mdur());
 				ME->set_ED(D);
 				ME->set_CD(ME->get_WD()+ME->get_FD()+ME->get_ED());
-				IEList.add(ME,(1/(ME->get_CD())));
+				IEList.add(ME,(1.0/(ME->get_CD())));
 			}
 			else if (!IMRList.isEmpty())
 			{
@@ -337,12 +342,12 @@ void MarsStation::Simulate()
 				int D =R2->getExecutionDays(ME->get_tloc(),ME->get_mdur());
 				ME->set_ED(D);
 				ME->set_CD(ME->get_WD()+ME->get_FD()+ME->get_ED());
-				IEList.add(ME,(1/(ME->get_CD())));
+				IEList.add(ME,(1.0/(ME->get_CD())));
 				found=true;
                      }     
 				else
 				{
-					temp.add(R,1/(R->getFinishMaintenanceday()));
+					temp.add(R,1.0/(R->getFinishMaintenanceday()));
 				}
 				}
 
@@ -357,25 +362,26 @@ void MarsStation::Simulate()
 				int D =R1->getExecutionDays(ME->get_tloc(),ME->get_mdur());
 				ME->set_ED(D);
 				ME->set_CD(ME->get_WD()+ME->get_FD()+ME->get_ED());
-				IEList.add(ME,(1/(ME->get_CD())));
+				IEList.add(ME,(1.0/(ME->get_CD())));
 				found=true;
                      }     
 				else
 				{
-					temp.add(R,1/(R->getFinishMaintenanceday()));
+					temp.add(R,1.0/(R->getFinishMaintenanceday()));
 				}
 				}
 				
 				while (!temp.isEmpty())
 				{
 					temp.remove(R);
-					IMRList.add(R,R->getFinishMaintenanceday());
+					IMRList.add(R,(1.0/R->getFinishMaintenanceday()));
 				}
 				condition6=found;
 			}
 		
 			else 
 				condition6=false;
+			
 
 		}
 		/////////////////////////////////////////////////////////////////////
@@ -384,16 +390,18 @@ void MarsStation::Simulate()
 		{
 			Mission * M;
 			IEList.peek(M);
-			if (M->get_CD()==Day)
+
+			if (int (M->get_CD())==Day)
 			{
 				IEList.remove(M);
+				CMList.add(M,(1/(M->get_CD())));
 				Rover * R=M->get_R();
 				R->incrementmissionsdone();
 				if (R->getNomdone()==R->getnumofmissions())
 				{
 					R->incrementNumofcheckups();
 					R->setFinishcheckupday(Day+R->getCheckupDuration());
-					ICURList.add(R,1/(R->getFinishcheckupday()));
+					ICURList.add(R,1.0/(R->getFinishcheckupday()));
 				}
 				//////////////////////add maintance condition here//////////////
 				else if (R->getNumofcheckups()>2 && R->getNomdone()==(R->getnumofmissions()+1)/2)
@@ -401,7 +409,7 @@ void MarsStation::Simulate()
 				int z=	(R->getCheckupDuration()+1)/2;
 				int m=Day+z;
 				R->setFinishMaintenanceday(m);
-				IMRList.add(R,1/(R->getFinishMaintenanceday()));
+				IMRList.add(R,1.0/(R->getFinishMaintenanceday()));
 				}
 				else
 				{
@@ -418,7 +426,7 @@ void MarsStation::Simulate()
                         WMRList.add(R3,R->getspeed());
                      } 
 				}
-				CMList.add(M,(1/(M->get_CD())));
+				
 			}
 			else 
 				condition7=false;

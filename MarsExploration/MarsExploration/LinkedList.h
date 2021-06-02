@@ -34,11 +34,19 @@ public:
 	/// ////////////////////////////////////////////
 	bool insert(const T& newEntry)
 	{
-		int count = 0;
-		Node<T>* P = head;
+		
 
 		//	need edit for head = nullptr
-
+		if(head == nullptr)
+		{
+			head=new Node<T>(newEntry);;
+			head->setNext(nullptr);
+			return true;
+		}
+		else
+		{
+			int count = 0;
+		Node<T>* P = head;
 		while (P)
 		{
 			if ((P->getNext() == nullptr) && (count == 0))
@@ -54,6 +62,7 @@ public:
 
 			P = P->getNext();
 			return true;
+		}
 		}
 	}
 	/// //////////////////////////////////////////////////////
