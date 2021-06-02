@@ -4,6 +4,7 @@ MarsStation::MarsStation(){
 	ui = new UI(this);
 	auto_promoted = 0;
 	Day=1;
+	modeOfSim = ui->getModeOfSim();
 }
 
 void MarsStation::Simulate()
@@ -423,9 +424,17 @@ void MarsStation::Simulate()
 				condition7=false;
 		}
 		////////////////////////////////////////////////////////////////////////////////////////////////
-		ui->printDataOfDay(Day);
+		if(modeOfSim == 1){
+			ui->printDataOfDay(Day);
+			ui->waitEnter();
+		}else if(modeOfSim == 2){
+			ui->printDataOfDay(Day);
+			ui->waitSecond();
+		}
 		Day++;
 	}
+	if(modeOfSim == 3)
+		ui->silentMode();
 }
 
 void MarsStation::ReadInput(){
@@ -516,6 +525,13 @@ LinkedPriorityQueue<Mission*>* MarsStation::compMissions(){
 	return &CMList;
 }
 
+void MarsStation::setMode(int mode){
+	modeOfSim = mode;
+}
+
+int MarsStation::getMode(){
+	return modeOfSim;
+}
 
 int MarsStation::getAutoPromoted(){
 	return auto_promoted;

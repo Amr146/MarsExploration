@@ -1,8 +1,5 @@
 #pragma once
 
-
-
-
 #ifndef MARS_CLASS
 #define MARS_CLASS
 
@@ -21,7 +18,7 @@
 #include"PolarMission.h"
 #include"MountainousMission.h"
 #include"UI.h"
-//class UI;
+
 class MarsStation
 {
 private:
@@ -29,6 +26,7 @@ private:
 	int autoP;
 	int auto_promoted;
 	int Day;
+	int modeOfSim;
 protected:
 	LinkedPriorityQueue<Event*> EventList;		//	why not only queue ?
 	LinkedQueue<PolarMission*> WPMList;
@@ -85,6 +83,10 @@ public:
 	LinkedPriorityQueue<Rover*>* inCheck();
 
 	LinkedPriorityQueue<Mission*>* compMissions();
+
+	void setMode(int mode);
+
+	int getMode();
 
 	int getAutoPromoted();
 

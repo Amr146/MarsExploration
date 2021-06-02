@@ -1,12 +1,8 @@
 #pragma once
 
-
-
 #ifndef UI_CLASS
 #define UI_CLASS
 
-
-//#include "MarsStation.h"
 class MarsStation;
 class UI
 {
@@ -19,5 +15,8 @@ public:
 	void createOutputFile();
 	void printDataOfDay(int day);
 	void silentMode();
+	void waitEnter();
+	void waitSecond();
+	int getModeOfSim();
 };
 #endif

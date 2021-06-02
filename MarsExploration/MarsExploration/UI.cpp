@@ -3,19 +3,15 @@
 
 #include <iostream>
 #include <fstream>
-
-#include "MarsStation.h"
-
 #include <string>
-
 using namespace std;
 
-UI::UI(MarsStation* st){
+UI::UI(MarsStation* st){		//	constructor
 	station = st;
 }
 
-void UI::loadInputFile(){
-	ifstream inputFile("inputFile.txt", ios::in);
+void UI::loadInputFile(){						//	loading input file
+	ifstream inputFile("inputFile.txt", ios::in);		//	creating input file stream
 	
 	int M, P, E, SM, SP, SE, N, CM, CP, CE;
 	char eventType;
@@ -26,6 +22,7 @@ void UI::loadInputFile(){
 		inputFile >> SM >> SP >> SE;		//	speed of each type of rovers
 		inputFile >> N >> CM >> CP >> CE;	//	num of missions before checkup and the checkup durations
 
+		//	creating rovers
 		station->createMrovers(M, SM, N, CM);
 		station->createProvers(P, SP, N, CP);
 		station->createErovers(E, SE, N, CE);
@@ -36,38 +33,39 @@ void UI::loadInputFile(){
 		inputFile >> N;						//	num of evevts
 		for(int i = 1; i <= N; i++){
 			inputFile >> eventType;
+			//	formulation event
 			if(eventType == 'F'){
 				char mType;
 				inputFile >> mType;
+				//	type of the mission
 				MissionType type = (mType == 'E')? MissionType::E : ((mType == 'P')? MissionType::P : MissionType::M);
-				inputFile >> ed >> id;
 				int tloc, mdur, sig;
-				inputFile >> tloc >> mdur >> sig;
+				inputFile >> ed >> id >> tloc >> mdur >> sig;
 				station->addFEvent(type, ed, id, tloc, mdur, sig);		//	creating formulation event
-			
+			//	promotion event
 			}else if(eventType == 'P'){
 				inputFile >> ed >> id;
 				station->addPEvent(ed, id);		//	creating promotion event
-			
+			//	cancellation event
 			}else if(eventType == 'X'){
 				inputFile >> ed >> id;
 				station->addXEvent(ed, id);		//	creating cancellation event
-			
+			//	nothing
 			}else{
 				//	skip this incorrect line
 			}
 		}
 	}
-	inputFile.close();
+	inputFile.close();		//	closing input file
 }
 
 void UI::createOutputFile(){
-	LinkedPriorityQueue<Mission*> *CM = station->completedMissions();	//	address of CMList
-	LinkedPriorityQueue<Polarrovers*>* P = station->polarRovers();
-	LinkedPriorityQueue<Mountainousrovers*>* M = station->mountRovers();
-	LinkedPriorityQueue<Emergencyrovers*>* E = station->emergRovers();
+	LinkedPriorityQueue<Mission*> *CM = station->completedMissions();		//	address of CMList
+	LinkedPriorityQueue<Polarrovers*>* P = station->polarRovers();			//	address of WPRList
+	LinkedPriorityQueue<Mountainousrovers*>* M = station->mountRovers();	//	address of WMRList
+	LinkedPriorityQueue<Emergencyrovers*>* E = station->emergRovers();		//	address of WERList
 	
-	ofstream outputFile("outputFile.txt", ios::out);
+	ofstream outputFile("outputFile.txt", ios::out);			//	creating output file stream
 	if(outputFile.is_open()){
 		outputFile << "CD ID FD WD ED\n";
 		Mission* mission;
@@ -78,15 +76,16 @@ void UI::createOutputFile(){
 		int totalWait = 0, totalExecution = 0, totalMissions = 0, Emission = 0, Pmission = 0, Mmission = 0;
 		int Erovers = 0, Mrovers = 0, Provers = 0;
 
+		//	count num of polar rovers
 		while(P->remove(pRoverPtr))
 			Provers++;
-
+		//	count num of mount rovers
 		while(M->remove(mRoverPtr))
 			Mrovers++;
-
+		//	count num of emerg rovers
 		while(E->remove(eRoverPtr))
 			Erovers++;
-
+		//	count num of missions
 		while(CM->remove(mission)){
 			totalMissions++;
 			if(dynamic_cast<EmergencyMission*>(mission))
@@ -103,7 +102,7 @@ void UI::createOutputFile(){
 		}
 
 		outputFile << "....................................................\n....................................................\n";
-
+		//	statistics of the system
 		outputFile << "Missions: " << totalMissions << " [M: " << Mmission << ", P: " << Pmission << ", E: " << Emission << "]\n";
 
 		outputFile << "Rovers: " << Provers+Mrovers+Erovers << "[M: " << Mrovers << ", P: " << Provers << ", E: " << Erovers << "]\n";
@@ -118,7 +117,7 @@ void UI::createOutputFile(){
 		}
 		
 	}
-	outputFile.close();
+	outputFile.close();		//	closing output file
 }
 
 void UI::printDataOfDay(int day){
@@ -314,5 +313,33 @@ void UI::printDataOfDay(int day){
 }
 
 void UI::silentMode(){
-	cout << "Silent Mode\nSimulation Starts...\nSimulation ends, Output file created\n";
+	cout << "Silent Mode\nSimulation Starts...\nSimulation ends, Output file created\n";		//	message of the silent mode
+}
+
+void UI::waitEnter(){
+	while(true)
+		if (cin.get() == '\n'){			//	waiting until enter is pressed
+			//cin.ignore();
+			break;
+		}
+}
+
+void UI::waitSecond(){
+	_sleep(1000);		//	waiting 1 second
+}
+
+int UI::getModeOfSim(){
+	cout << "Select The Mode Of Simulation: \n-------------------------------\n";
+	cout << "1) Interactive Mode\n";
+	cout << "2) Step-By-Step Mode\n";
+	cout << "3) Silent Mode\n";
+	int mode;
+	cin >> mode;
+	cin.ignore();
+	while(mode != 1 && mode !=  2 && mode != 3){
+		cout << "Enter Correct Choice: ";
+		cin >> mode;
+		cin.ignore();
+	}
+	return mode;
 }
