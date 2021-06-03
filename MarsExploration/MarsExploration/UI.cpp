@@ -13,13 +13,26 @@ UI::UI(MarsStation* st){		//	constructor
 void UI::loadInputFile(){						//	loading input file
 	ifstream inputFile("inputFile.txt", ios::in);		//	creating input file stream
 	
-	int M, P, E, SM, SP, SE, N, CM, CP, CE;
+	int M, P, E, N, CM, CP, CE;
+	double* SM;
+	double* SP;
+	double* SE;
 	char eventType;
 	int ed, id;
 
 	if(inputFile.is_open()){
 		inputFile >> M >> P >> E;			//	num of each type of rovers
-		inputFile >> SM >> SP >> SE;		//	speed of each type of rovers
+		SM = new double[M];
+		SP = new double[P];
+		SE = new double[E];
+		//	speed of each rover
+		for(int i = 0; i < M; i++)
+			inputFile >> SM[i];
+		for(int i = 0; i < P; i++)
+			inputFile >> SP[i];
+		for(int i = 0; i < E; i++)
+			inputFile >> SE[i];
+		
 		inputFile >> N >> CM >> CP >> CE;	//	num of missions before checkup and the checkup durations
 
 		//	creating rovers
@@ -57,6 +70,9 @@ void UI::loadInputFile(){						//	loading input file
 		}
 	}
 	inputFile.close();		//	closing input file
+	delete []SM;
+	delete []SP;
+	delete []SE;
 }
 
 void UI::createOutputFile(){

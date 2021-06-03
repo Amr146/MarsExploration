@@ -50,11 +50,11 @@ public:
 
 	void WriteOutput();
 
-	void createMrovers(int n, double speed, int nom, int checkUp);
+	void createMrovers(int n, double* speed, int nom, int checkUp);
 
-	void createProvers(int n, double speed, int nom, int checkUp);
+	void createProvers(int n, double* speed, int nom, int checkUp);
 
-	void createErovers(int n, double speed, int nom, int checkUp);
+	void createErovers(int n, double* speed, int nom, int checkUp);
 
 	void setAutoP(int n);
 

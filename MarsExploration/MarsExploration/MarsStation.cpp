@@ -453,23 +453,23 @@ void MarsStation::AssignMissions(){}
 
 void MarsStation::WriteOutput(){}
 
-void MarsStation::createMrovers(int n, double speed, int nom, int checkUp){
+void MarsStation::createMrovers(int n, double* speed, int nom, int checkUp){
 	for(int i = 0; i < n; i++){
-		Mountainousrovers* newMrover = new Mountainousrovers(speed, nom, checkUp);
+		Mountainousrovers* newMrover = new Mountainousrovers(speed[i], nom, checkUp);
 		WMRList.add(newMrover, 0);		//	what is the default priority
 	}
 }
 
-void MarsStation::createProvers(int n, double speed, int nom, int checkUp){
+void MarsStation::createProvers(int n, double* speed, int nom, int checkUp){
 	for(int i = 0; i < n; i++){
-		Polarrovers* newMrover = new Polarrovers(speed, nom, checkUp);
+		Polarrovers* newMrover = new Polarrovers(speed[i], nom, checkUp);
 		WPRList.add(newMrover, 0);		//	what is the default priority
 	}
 }
 
-void MarsStation::createErovers(int n, double speed, int nom, int checkUp){
+void MarsStation::createErovers(int n, double* speed, int nom, int checkUp){
 	for(int i = 0; i < n; i++){
-		Emergencyrovers* newMrover = new Emergencyrovers(speed, nom, checkUp);
+		Emergencyrovers* newMrover = new Emergencyrovers(speed[i], nom, checkUp);
 		WERList.add(newMrover, 0);		//	what is the default priority
 	}
 }
