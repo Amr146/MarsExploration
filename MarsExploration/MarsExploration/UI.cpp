@@ -134,6 +134,7 @@ void UI::createOutputFile(){
 		
 	}
 	outputFile.close();		//	closing output file
+	cout << "Simulation ends, Output file created\n";
 }
 
 void UI::printDataOfDay(int day){
@@ -329,7 +330,7 @@ void UI::printDataOfDay(int day){
 }
 
 void UI::silentMode(){
-	cout << "Silent Mode\nSimulation Starts...\nSimulation ends, Output file created\n";		//	message of the silent mode
+	cout << "Silent Mode\n";		//	message of the silent mode
 }
 
 void UI::waitEnter(){
@@ -357,5 +358,6 @@ int UI::getModeOfSim(){
 		cin >> mode;
 		cin.ignore();
 	}
+	cout << "\nSimulation Starts...\n";
 	return mode;
 }

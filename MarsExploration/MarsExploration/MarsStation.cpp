@@ -11,6 +11,9 @@ MarsStation::MarsStation(){
 void MarsStation::Simulate()
 {
 	ReadInput();
+	if(modeOfSim == 3)
+		ui->silentMode();
+
 	while (!EventList.isEmpty() || !WPMList.isEmpty() || !WMMList.isEmpty() || !WEMList.isEmpty() || !IEList.isEmpty())
 	{
 		bool condition1=true;
@@ -441,8 +444,7 @@ void MarsStation::Simulate()
 		}
 		Day++;
 	}
-	if(modeOfSim == 3)
-		ui->silentMode();
+	ui->createOutputFile();
 }
 
 void MarsStation::ReadInput(){
@@ -546,6 +548,5 @@ int MarsStation::getAutoPromoted(){
 }
 
 MarsStation::~MarsStation(){
-	ui->createOutputFile();
 	delete ui;
 }
