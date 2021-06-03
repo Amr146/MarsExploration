@@ -138,20 +138,34 @@ void UI::createOutputFile(){
 }
 
 void UI::printDataOfDay(int day){
-	LinkedQueue<PolarMission*> WPMList(*(station->polarMissions()));				//	Deep copy of waiting polar missions
-	LinkedList<MountainousMission*> WMMList(*(station->mountMissions()));			//	Deep copy of waiting mount missions
-	LinkedPriorityQueue<EmergencyMission*> WEMList(*(station->emergMissions()));	//	Deep copy of waiting emerg missions
+	LinkedQueue<PolarMission*>* WPMList = station->polarMissions();				//	Pointer to the waiting polar missions
+	LinkedList<MountainousMission*>* WMMList =station->mountMissions();			//	Pointer to the waiting mount missions
+	LinkedPriorityQueue<EmergencyMission*>* WEMList = station->emergMissions();	//	Pointer to the waiting emerg missions
 
-	LinkedPriorityQueue<Mission*> inExecution(*(station->inExec()));				//	Deep copy of in execution missions
+	LinkedPriorityQueue<Mission*>* inExecution = station->inExec();				//	Pointer to the in execution missions
 
-	LinkedPriorityQueue<Polarrovers*> WPRList(*(station->polarRovers()));			//	Deep copy of waiting polar rovers
-	LinkedPriorityQueue<Mountainousrovers*> WMRList(*(station->mountRovers()));		//	Deep copy of waiting mount rovers
-	LinkedPriorityQueue<Emergencyrovers*> WERList(*(station->emergRovers()));		//	Deep copy of waiting emerg rovers
+	LinkedPriorityQueue<Polarrovers*>* WPRList = station->polarRovers();			//	Pointer to the waiting polar rovers
+	LinkedPriorityQueue<Mountainousrovers*>* WMRList = station->mountRovers();		//	Pointer to the waiting mount rovers
+	LinkedPriorityQueue<Emergencyrovers*>* WERList = station->emergRovers();		//	Pointer to the waiting emerg rovers
 	
-	LinkedPriorityQueue<Rover*> ICURList(*(station->inCheck()));					//	Deep copy of in in check-up rovers
+	LinkedPriorityQueue<Rover*>* ICURList = station->inCheck();					//	Pointer to the in check-up rovers
 
-	LinkedPriorityQueue<Mission*> CMList(*(station->completedMissions()));			//	Deep copy of in in completed missions
+	LinkedPriorityQueue<Mission*>* CMList = station->completedMissions();			//	Pointer to the in in completed missions
 	
+
+	LinkedQueue<Mission*> missionTemp;						//temp queue for missions
+
+	LinkedQueue<PolarMission*> pMissionTemp;				//temp queue for polar missions
+	LinkedQueue<MountainousMission*> mMissionTemp;			//temp queue for mount missions
+	LinkedQueue<EmergencyMission*> eMissionTemp;			//temp queue for emerg missions
+
+	LinkedQueue<Rover*> roverTemp;							//temp queue for rovers
+
+	LinkedQueue<Polarrovers*> PRoverTemp;					//temp queue for polar rovers
+	LinkedQueue<Mountainousrovers*> MRoverTemp;				//temp queue mount for rovers
+	LinkedQueue<Emergencyrovers*> ERoverTemp;				//temp queue for emerg rovers
+
+
 	string dayDetails = "[";
 	int n = 0;
 
@@ -172,18 +186,32 @@ void UI::printDataOfDay(int day){
 	//	Printing waiting missions
 
 	//	Getting IDs of waiting emerg missions
-	while(WEMList.remove(eMissionPtr)){
+	while(WEMList->remove(eMissionPtr)){
 		n++;
 		dayDetails += (to_string(eMissionPtr->get_id())+",");
+		eMissionTemp.enqueue(eMissionPtr);
+	}
+	//returning the missions to its DS
+	while (!eMissionTemp.isEmpty())
+	{
+		eMissionTemp.dequeue(eMissionPtr);
+		WEMList->add(eMissionPtr, eMissionPtr->get_pri());
 	}
 	if(dayDetails.back() == ',')
 		dayDetails.pop_back();
 	dayDetails += "] (";
 	
 	//	Getting IDs of waiting polar missions
-	while(WPMList.dequeue(pMissionPtr)){
+	while(WPMList->dequeue(pMissionPtr)){
 		n++;
 		dayDetails += (to_string(pMissionPtr->get_id())+",");
+		pMissionTemp.enqueue(pMissionPtr);
+	}
+	//returning the missions to its DS
+	while (!pMissionTemp.isEmpty())
+	{
+		pMissionTemp.dequeue(pMissionPtr);
+		WPMList->enqueue(pMissionPtr);
 	}
 	if(dayDetails.back() == ',')
 		dayDetails.pop_back();
@@ -191,9 +219,15 @@ void UI::printDataOfDay(int day){
 
 	//	Getting IDs of waiting mount missions
 	int m = 0;
-	while(WMMList.remove(m++ ,mMissionPtr)){			//	how to remove each element in this list??
+	while(WMMList->remove(m++ ,mMissionPtr)){			//	how to remove each element in this list??
 		n++;
 		dayDetails += (to_string(mMissionPtr->get_id())+",");
+	}
+	//returning the missions to its DS
+	while (!mMissionTemp.isEmpty())
+	{
+		mMissionTemp.dequeue(mMissionPtr);
+		WMMList->insert(mMissionPtr);
 	}
 	if(dayDetails.back() == ',')
 		dayDetails.pop_back();
@@ -208,7 +242,7 @@ void UI::printDataOfDay(int day){
 	string dayDetails2 = "(";
 	string dayDetails3 = "{";
 
-	while(inExecution.remove(mission)){
+	while(inExecution->remove(mission)){
 		n++;
 		if(dynamic_cast<EmergencyMission*>(mission)){
 			dayDetails += (to_string(mission->get_id()) + "/" + to_string(mission->get_R()->getid()));
@@ -220,6 +254,12 @@ void UI::printDataOfDay(int day){
 			dayDetails3 += (to_string(mission->get_id()) + "/" + to_string(mission->get_R()->getid()));
 			dayDetails3 += ",";
 		}
+	}
+	//returning the missions to its DS
+	while (!missionTemp.isEmpty())
+	{
+		missionTemp.dequeue(mission);
+		inExecution->add(mission, 1/(mission->get_CD()));
 	}
 	if(dayDetails.back() == ',')
 		dayDetails.pop_back();
@@ -239,9 +279,15 @@ void UI::printDataOfDay(int day){
 	n = 0;
 	dayDetails = "[";
 	//	Getting IDs of waiting emerg rovers
-	while(WERList.remove(eRoverPtr)){
+	while(WERList->remove(eRoverPtr)){
 		n++;
 		dayDetails += (to_string(eRoverPtr->getid())+",");
+	}
+	//returning the Rovers to its DS
+	while (!ERoverTemp.isEmpty())
+	{
+		ERoverTemp.dequeue(eRoverPtr);
+		WERList->add(eRoverPtr, eRoverPtr->getspeed());
 	}
 	if(dayDetails.back() == ',')
 		dayDetails.pop_back();
@@ -249,18 +295,30 @@ void UI::printDataOfDay(int day){
 	
 	//	Getting IDs of waiting polar rovers
 	m = 0;
-	while(WPRList.remove(pRoverPtr)){
+	while(WPRList->remove(pRoverPtr)){
 		n++;
 		dayDetails += (to_string(pRoverPtr->getid())+",");
+	}
+	//returning the Rovers to its DS
+	while (!PRoverTemp.isEmpty())
+	{
+		PRoverTemp.dequeue(pRoverPtr);
+		WPRList->add(pRoverPtr, pRoverPtr->getspeed());
 	}
 	if(dayDetails.back() == ',')
 		dayDetails.pop_back();
 	dayDetails += ") {";
 
 	//	Getting IDs of waiting mount rovers
-	while(WMRList.remove(mRoverPtr)){
+	while(WMRList->remove(mRoverPtr)){
 		n++;
 		dayDetails += (to_string(mRoverPtr->getid()) + ",");
+	}
+	//returning the Rovers to its DS
+	while (!MRoverTemp.isEmpty())
+	{
+		MRoverTemp.dequeue(mRoverPtr);
+		WMRList->add(mRoverPtr, mRoverPtr->getspeed());
 	}
 	if(dayDetails.back() == ',')
 		dayDetails.pop_back();
@@ -275,7 +333,7 @@ void UI::printDataOfDay(int day){
 	dayDetails2 = "(";
 	dayDetails3 = "{";
 
-	while(ICURList.remove(rover)){
+	while(ICURList->remove(rover)){
 		n++;
 		if(dynamic_cast<Emergencyrovers*>(rover))
 			dayDetails += (to_string(rover->getid()) + ",");
@@ -283,6 +341,13 @@ void UI::printDataOfDay(int day){
 			dayDetails2 += (to_string(rover->getid()) + ",");
 		else if(dynamic_cast<Mountainousrovers*>(rover))
 			dayDetails3 += (to_string(rover->getid()) + ",");
+	}
+
+	//returning the Rovers to its DS
+	while (!roverTemp.isEmpty())
+	{
+		roverTemp.dequeue(rover);
+		ICURList->add(rover, (1/rover->getFinishcheckupday()));
 	}
 
 	if(dayDetails.back() == ',')
@@ -305,7 +370,7 @@ void UI::printDataOfDay(int day){
 	dayDetails2 = "(";
 	dayDetails3 = "{";
 
-	while(CMList.remove(mission)){
+	while(CMList->remove(mission)){
 		n++;
 		if(dynamic_cast<EmergencyMission*>(mission))
 			dayDetails += (to_string(mission->get_id()) + ",");
@@ -313,6 +378,13 @@ void UI::printDataOfDay(int day){
 			dayDetails2 += (to_string(mission->get_id()) + ",");
 		else if(dynamic_cast<MountainousMission*>(mission))
 			dayDetails3 += (to_string(mission->get_id()) + ",");
+	}
+
+	//returning the Missions to its DS
+	while (!missionTemp.isEmpty())
+	{
+		missionTemp.dequeue(mission);
+		CMList->add(mission, (1/mission->get_CD()));
 	}
 
 	if(dayDetails.back() == ',')
@@ -327,6 +399,10 @@ void UI::printDataOfDay(int day){
 	dayDetails3 += "}";
 
 	cout << n << " Completed Missions: " << dayDetails << " " << dayDetails2 << " " << dayDetails3 << endl << endl << endl;
+
+
+
+
 }
 
 void UI::silentMode(){

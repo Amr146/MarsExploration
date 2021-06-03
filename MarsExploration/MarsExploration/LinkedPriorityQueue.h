@@ -73,22 +73,6 @@ bool LinkedPriorityQueue<T>::add(const T& newEntry, double priority)
 		frontPtr = newNodePtr; // The PriorityQueue is empty
 		backPtr = newNodePtr;
 	}
-	else if (frontPtr->getNext() == nullptr)
-	{
-		Node<T>* P = frontPtr;
-		if (newNodePtr->priority > P->priority)
-		{
-			newNodePtr->setNext(P);
-			frontPtr = newNodePtr;
-
-		}
-		else
-		{
-			backPtr->setNext(newNodePtr);
-			backPtr = newNodePtr;
-
-		}
-	}
 	else if (newNodePtr->priority > frontPtr->priority)
 	{
 		newNodePtr->setNext(frontPtr);
