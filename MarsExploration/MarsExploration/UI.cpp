@@ -391,7 +391,7 @@ void UI::printDataOfDay(int day){
 	while (!missionTemp.isEmpty())
 	{
 		missionTemp.dequeue(mission);
-		CMList->add(mission, (1/mission->get_CD()));
+		CMList->add(mission, (100.0/mission->get_CD()));		//check this should it be like this or FD 
 	}
 
 	if(dayDetails.back() == ',')
