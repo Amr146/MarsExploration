@@ -219,7 +219,7 @@ void UI::printDataOfDay(int day){
 
 	//	Getting IDs of waiting mount missions
 	int m = 0;
-	while(WMMList->remove(m++ ,mMissionPtr)){			//	how to remove each element in this list??
+	while(WMMList->remove(m ,mMissionPtr)){			//	how to remove each element in this list??
 		n++;
 		dayDetails += (to_string(mMissionPtr->get_id())+",");
 		mMissionTemp.enqueue(mMissionPtr);

@@ -61,8 +61,9 @@ public:
 			}
 
 			P = P->getNext();
-			return true;
+			//	return true;
 		}
+		return true;
 		}
 	}
 	/// //////////////////////////////////////////////////////
