@@ -1,14 +1,14 @@
 #pragma once
-
 #ifndef UI_CLASS
 #define UI_CLASS
+#include<string>
 
 class MarsStation;
 class UI
 {
 private:
 	MarsStation* station;
-
+	std::string inputfile;
 public:
 	UI(MarsStation* st);
 	void loadInputFile();

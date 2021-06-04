@@ -1,18 +1,23 @@
 #include "UI.h"
 #include "MarsStation.h"
-
 #include <iostream>
 #include <fstream>
-#include <string>
+#include<direct.h>
 using namespace std;
 
 UI::UI(MarsStation* st){		//	constructor
 	station = st;
+	inputfile = "";
 }
 
 void UI::loadInputFile(){						//	loading input file
-	ifstream inputFile("inputFile.txt", ios::in);		//	creating input file stream
-	
+
+	ifstream inputFile;							//	creating input file stream
+	do {
+		std::cout << "Please enter the name of the input file" << endl;
+		cin >> inputfile;
+		inputFile.open("Input\\" + inputfile + ".txt", ios::in);		
+	} while (!inputFile.is_open());				//Checking if the file is open		
 	int M, P, E, N, CM, CP, CE;
 	double* SM;
 	double* SP;
@@ -80,8 +85,16 @@ void UI::createOutputFile(){
 	LinkedPriorityQueue<Polarrovers*>* P = station->polarRovers();			//	address of WPRList
 	LinkedPriorityQueue<Mountainousrovers*>* M = station->mountRovers();	//	address of WMRList
 	LinkedPriorityQueue<Emergencyrovers*>* E = station->emergRovers();		//	address of WERList
-	
-	ofstream outputFile("outputFile.txt", ios::out);			//	creating output file stream
+
+	ofstream outputFile("Output\\" + inputfile + "_Output.txt", ios::out);			//	creating output file stream
+
+	if(outputFile.is_open())
+	{ }
+	else
+	{
+		mkdir("Output");		//create the Save Directory and check if created successfully
+		outputFile.open("Output\\" + inputfile + "_Output.txt", ios::out);
+	}
 	if(outputFile.is_open()){
 		outputFile << "CD ID FD WD ED\n";
 		Mission* mission;
@@ -134,7 +147,7 @@ void UI::createOutputFile(){
 		
 	}
 	outputFile.close();		//	closing output file
-	cout << "Simulation ends, Output file created\n";
+	std::cout << "Simulation ends, Output file created\n";
 }
 
 void UI::printDataOfDay(int day){
@@ -181,7 +194,7 @@ void UI::printDataOfDay(int day){
 
 	Rover* rover;
 
-	cout << "Current day:" << day << "\n";
+	std::cout << "Current day:" << day << "\n";
 	
 	//	Printing waiting missions
 
@@ -234,7 +247,7 @@ void UI::printDataOfDay(int day){
 		dayDetails.pop_back();
 	dayDetails += "}";
 
-	cout << n << " Waiting Missions: " << dayDetails << endl;
+	std::cout << n << " Waiting Missions: " << dayDetails << endl;
 
 	/////////////////////////////////////////////////////////////
 	//	printing in execution missions
@@ -274,7 +287,7 @@ void UI::printDataOfDay(int day){
 	dayDetails2 += ")";
 	dayDetails3 += "}";
 
-	cout << n << " In-Execution Missions/Rovers: " << dayDetails << " " << dayDetails2 << " " << dayDetails3 << endl;
+	std::cout << n << " In-Execution Missions/Rovers: " << dayDetails << " " << dayDetails2 << " " << dayDetails3 << endl;
 
 	/////////////////////////////////////////////////////////////
 	//	printing available rovers
@@ -329,7 +342,7 @@ void UI::printDataOfDay(int day){
 		dayDetails.pop_back();
 	dayDetails += "}";
 
-	cout << n << " Available Rovers: " << dayDetails << endl;
+	std::cout << n << " Available Rovers: " << dayDetails << endl;
 
 	/////////////////////////////////////////////////////////////
 	//	printing in checkup rovers
@@ -367,7 +380,7 @@ void UI::printDataOfDay(int day){
 	dayDetails2 += ")";
 	dayDetails3 += "}";
 
-	cout << n << " In-Checkup Rovers: " << dayDetails << " " << dayDetails2 << " " << dayDetails3 << endl;
+	std::cout << n << " In-Checkup Rovers: " << dayDetails << " " << dayDetails2 << " " << dayDetails3 << endl;
 
 	/////////////////////////////////////////////////////////////
 	//	printing in completed missions
@@ -405,12 +418,12 @@ void UI::printDataOfDay(int day){
 	dayDetails2 += ")";
 	dayDetails3 += "}";
 
-	cout << n << " Completed Missions: " << dayDetails << " " << dayDetails2 << " " << dayDetails3 << endl << endl << endl;
+	std::cout << n << " Completed Missions: " << dayDetails << " " << dayDetails2 << " " << dayDetails3 << endl << endl << endl;
 
 }
 
 void UI::silentMode(){
-	cout << "Silent Mode\n";		//	message of the silent mode
+	std::cout << "Silent Mode\n";		//	message of the silent mode
 }
 
 void UI::waitEnter(){
@@ -426,18 +439,18 @@ void UI::waitSecond(){
 }
 
 int UI::getModeOfSim(){
-	cout << "Select The Mode Of Simulation: \n-------------------------------\n";
-	cout << "1) Interactive Mode\n";
-	cout << "2) Step-By-Step Mode\n";
-	cout << "3) Silent Mode\n";
+	std::cout << "Select The Mode Of Simulation: \n-------------------------------\n";
+	std::cout << "1) Interactive Mode\n";
+	std::cout << "2) Step-By-Step Mode\n";
+	std::cout << "3) Silent Mode\n";
 	int mode;
 	cin >> mode;
 	cin.ignore();
 	while(mode != 1 && mode !=  2 && mode != 3){
-		cout << "Enter Correct Choice: ";
+		std::cout << "Enter Correct Choice: ";
 		cin >> mode;
 		cin.ignore();
 	}
-	cout << "\nSimulation Starts...\n";
+	std::cout << "\nSimulation Starts...\n";
 	return mode;
 }

@@ -1,11 +1,11 @@
 #pragma once
-#include"Constants.h"
-#include"LinkedPriorityQueue.h"
-#include"LinkedList.h"
-#include"LinkedQueue.h"
-#include"EmergencyMission.h"
-#include"PolarMission.h"
-#include"MountainousMission.h"
+#include"..\Constants.h"
+#include"..\DS\LinkedPriorityQueue.h"
+#include"..\DS\LinkedList.h"
+#include"..\DS\LinkedQueue.h"
+#include"..\Missions\EmergencyMission.h"
+#include"..\Missions\PolarMission.h"
+#include"..\Missions\MountainousMission.h"
 class Event{
 protected:
 	//Event day

@@ -1,7 +1,4 @@
 #include "FormulationEvent.h"
-#include"EmergencyMission.h"
-#include"PolarMission.h"
-#include"MountainousMission.h"
 
 FormulationEvent::FormulationEvent(MissionType MT, int ed, int id, double Tloc, int Mdur, double Sig): Event(ed,id)
 {

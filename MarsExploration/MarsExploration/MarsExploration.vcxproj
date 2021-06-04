@@ -63,43 +63,42 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="CancellationEvent.h" />
     <ClInclude Include="Constants.h" />
-    <ClInclude Include="EmergencyMission.h" />
-    <ClInclude Include="Emergencyrovers.h" />
-    <ClInclude Include="Event.h" />
-    <ClInclude Include="FormulationEvent.h" />
-    <ClInclude Include="LinkedList.h" />
-    <ClInclude Include="LinkedPriorityQueue.h" />
-    <ClInclude Include="LinkedQueue.h" />
-    <ClInclude Include="ListADT.h" />
+    <ClInclude Include="DS\LinkedList.h" />
+    <ClInclude Include="DS\LinkedPriorityQueue.h" />
+    <ClInclude Include="DS\LinkedQueue.h" />
+    <ClInclude Include="DS\ListADT.h" />
+    <ClInclude Include="DS\Node.h" />
+    <ClInclude Include="DS\PriorityQueueADT.h" />
+    <ClInclude Include="DS\QueueADT.h" />
+    <ClInclude Include="Events\CancellationEvent.h" />
+    <ClInclude Include="Events\Event.h" />
+    <ClInclude Include="Events\FormulationEvent.h" />
+    <ClInclude Include="Events\PromotionEvent.h" />
     <ClInclude Include="MarsStation.h" />
-    <ClInclude Include="Mission.h" />
-    <ClInclude Include="MountainousMission.h" />
-    <ClInclude Include="Mountainousrovers.h" />
-    <ClInclude Include="Node.h" />
-    <ClInclude Include="PolarMission.h" />
-    <ClInclude Include="Polarrovers.h" />
-    <ClInclude Include="PriorityQueueADT.h" />
-    <ClInclude Include="PromotionEvent.h" />
-    <ClInclude Include="QueueADT.h" />
-    <ClInclude Include="Rover.h" />
-    <ClInclude Include="UI.h" />
+    <ClInclude Include="Missions\EmergencyMission.h" />
+    <ClInclude Include="Missions\Mission.h" />
+    <ClInclude Include="Missions\MountainousMission.h" />
+    <ClInclude Include="Missions\PolarMission.h" />
+    <ClInclude Include="Rovers\Emergencyrovers.h" />
+    <ClInclude Include="Rovers\Mountainousrovers.h" />
+    <ClInclude Include="Rovers\Polarrovers.h" />
+    <ClInclude Include="Rovers\Rover.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CancellationEvent.cpp" />
     <ClCompile Include="DS_TEST.cpp" />
-    <ClCompile Include="EmergencyMission.cpp" />
-    <ClCompile Include="Emergencyrovers.cpp" />
-    <ClCompile Include="FormulationEvent.cpp" />
+    <ClCompile Include="Events\CancellationEvent.cpp" />
+    <ClCompile Include="Events\FormulationEvent.cpp" />
+    <ClCompile Include="Events\PromotionEvent.cpp" />
     <ClCompile Include="MarsStation.cpp" />
-    <ClCompile Include="Mission.cpp" />
-    <ClCompile Include="MountainousMission.cpp" />
-    <ClCompile Include="Mountainousrovers.cpp" />
-    <ClCompile Include="PolarMission.cpp" />
-    <ClCompile Include="Polarrovers.cpp" />
-    <ClCompile Include="PromotionEvent.cpp" />
-    <ClCompile Include="Rover.cpp" />
+    <ClCompile Include="Missions\EmergencyMission.cpp" />
+    <ClCompile Include="Missions\Mission.cpp" />
+    <ClCompile Include="Missions\MountainousMission.cpp" />
+    <ClCompile Include="Missions\PolarMission.cpp" />
+    <ClCompile Include="Rovers\Emergencyrovers.cpp" />
+    <ClCompile Include="Rovers\Mountainousrovers.cpp" />
+    <ClCompile Include="Rovers\Polarrovers.cpp" />
+    <ClCompile Include="Rovers\Rover.cpp" />
     <ClCompile Include="UI.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
