@@ -10,12 +10,18 @@ MarsStation::MarsStation(){
 
 void MarsStation::Simulate()
 {
-	ReadInput();
+	ReadInput();               //reading the text file
 	if(modeOfSim == 3)
 		ui->silentMode();
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	                            //     starting simulation from Day 1  //
+	/////////////////////////////////////////////////////////////////////////////////////////////////
 
 	while (!EventList.isEmpty() || !WPMList.isEmpty() || !WMMList.isEmpty() || !WEMList.isEmpty() || !IEList.isEmpty())
 	{
+		//////////////////////////////////////////////////////////////////////////////////////////
+	     //  searching for the rovers which finished checkup and return it back to it's list //
+		//////////////////////////////////////////////////////////////////////////////////////////
 		bool condition1=true;
 		while(!ICURList.isEmpty()&&condition1)
 		{
@@ -46,7 +52,12 @@ void MarsStation::Simulate()
 			else 
 				condition1=false;
 		}
-		////////////////////////////////////////////////////////////////////////////////////
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+		///////////////////////////////////////////////////////////////////////////////////////////////////
+		   //  searching for the rovers which finished Maintance and return it back to it's list //
+		//////////////////////////////////////////////////////////////////////////////////////////////////
 		bool condition2=true;
 		while(!IMRList.isEmpty()&&condition2)
 		{
@@ -73,7 +84,12 @@ void MarsStation::Simulate()
 			else 
 				condition2=false;
 		}
-		/////////////////////////////////////////////////////////////////////////////
+		//////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+		////////////////////////////////////////////////////////////////////////////////////////////////////////
+		                                      // Execute the events //
+		///////////////////////////////////////////////////////////////////////////////////////////////////////
 		bool condition3=true;
 		while (!EventList.isEmpty()&&condition3 )
 		{
@@ -103,10 +119,14 @@ void MarsStation::Simulate()
 				condition3=false;
 
 		}
-		///////////////////////////////////////////////////////////
-		//////////////////////////////////////////////////////////
+		/////////////////////////////////////////////////////////////////////////////////////////////////////
 
-		// we should handle the AutoP for mountains mission here
+
+
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		  // searching for the mountainous mission which should be Auto promoted to Emergency mission //
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+
 		bool z=true;
 		while (!WMMList.isEmpty()&&z)
 		{
@@ -119,9 +139,9 @@ void MarsStation::Simulate()
 		{
 			z=true;
 			WMMList.remove(index, temp);
-	EmergencyMission* newMission = new EmergencyMission(temp->get_id(), temp->get_tloc(), temp->get_mdur(), temp->get_si(), temp->get_FD());
-	delete temp;
-	WEMList.add(newMission, newMission->get_pri());
+	        EmergencyMission* newMission = new EmergencyMission(temp->get_id(), temp->get_tloc(), temp->get_mdur(), temp->get_si(), temp->get_FD());
+	        delete temp;
+	        WEMList.add(newMission, newMission->get_pri());
 		}
 		else
 			z=false;
@@ -130,266 +150,14 @@ void MarsStation::Simulate()
 
 		}
 
-		/////////////////////////////////////////////////////////
-		/////////////////////////////////////////////////////////
+		////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+		///////////////////////////////////////////////////////////////////////////////////////////////////////
+		            //  searching for the complited missions and return the rovers to it's lists //
+		//////////////////////////////////////////////////////////////////////////////////////////////////////
 		bool condition4=true;
-		while (!WEMList.isEmpty()&&condition4)
-		{
-			EmergencyMission * ME;
-			if (!WERList.isEmpty())
-			{
-				WEMList.remove(ME);
-				Emergencyrovers * R;
-				WERList.remove(R);
-				ME->set_R(R);
-				ME->set_WD((Day-(ME->get_FD())));   //setting waiting days of the mission
-				int D =R->getExecutionDays(ME->get_tloc(),ME->get_mdur());
-				ME->set_ED(D);
-				ME->set_CD(ME->get_WD()+ME->get_FD()+ME->get_ED());
-				IEList.add(ME,(1.0/(ME->get_CD())));
-			}
-			else if (!WMRList.isEmpty())
-			{
-				WEMList.remove(ME);
-				Mountainousrovers * R;
-				WMRList.remove(R);
-				ME->set_R(R);
-				ME->set_WD((Day-(ME->get_FD())));   //setting waiting days of the mission
-				int D =R->getExecutionDays(ME->get_tloc(),ME->get_mdur());
-				ME->set_ED(D);
-				ME->set_CD(ME->get_WD()+ME->get_FD()+ME->get_ED());
-				IEList.add(ME,(1.0/(ME->get_CD())));
-			}
-			else if (!WPRList.isEmpty())
-			{
-				WEMList.remove(ME);
-				Polarrovers * R;
-				WPRList.remove(R);
-				ME->set_R(R);
-				ME->set_WD((Day-(ME->get_FD())));   //setting waiting days of the mission
-				int D =R->getExecutionDays(ME->get_tloc(),ME->get_mdur());
-				ME->set_ED(D);
-				ME->set_CD(ME->get_WD()+ME->get_FD()+ME->get_ED());
-				IEList.add(ME,(1.0/(ME->get_CD())));
-			}
-			else if (!IMRList.isEmpty())
-			{
-				LinkedPriorityQueue<Rover*>temp;
-				Rover * R;
-				bool found=false;
-				while (!IMRList.isEmpty()&& !found)
-				{
-				IMRList.remove(R);
-				Emergencyrovers* R1 = dynamic_cast<Emergencyrovers*>(R);
-				if(R1){
-                       R1->setspeed(R1->getspeed()/2);
-					   ME->set_R(R1);
-				ME->set_WD((Day-(ME->get_FD())));   //setting waiting days of the mission
-				int D =R1->getExecutionDays(ME->get_tloc(),ME->get_mdur());
-				ME->set_ED(D);
-				ME->set_CD(ME->get_WD()+ME->get_FD()+ME->get_ED());
-				IEList.add(ME,(1.0/(ME->get_CD())));
-				found=true;
-                     }     
-				else
-				{
-					temp.add(R,1.0/(R->getFinishMaintenanceday()));
-				}
-				}
-
-				while (!temp.isEmpty()&& !found)
-				{
-					IMRList.remove(R);
-				Mountainousrovers* R2 = dynamic_cast<Mountainousrovers*>(R);
-				if(R2){
-                       R2->setspeed(R2->getspeed()/2);
-					   ME->set_R(R2);
-				ME->set_WD((Day-(ME->get_FD())));   //setting waiting days of the mission
-				int D =R2->getExecutionDays(ME->get_tloc(),ME->get_mdur());
-				ME->set_ED(D);
-				ME->set_CD(ME->get_WD()+ME->get_FD()+ME->get_ED());
-				IEList.add(ME,(1.0/(ME->get_CD())));
-				found=true;
-                     }     
-				else
-				{
-					IMRList.add(R,1.0/(R->getFinishMaintenanceday()));
-				}
-				}
-				while (!IMRList.isEmpty()&& !found)
-				{
-				IMRList.remove(R);
-				Polarrovers* R3 = dynamic_cast<Polarrovers*>(R);
-				if(R3){
-                       R3->setspeed(R3->getspeed()/2);
-					   ME->set_R(R3);
-				ME->set_WD((Day-(ME->get_FD())));   //setting waiting days of the mission
-				int D =R3->getExecutionDays(ME->get_tloc(),ME->get_mdur());
-				ME->set_ED(D);
-				ME->set_CD(ME->get_WD()+ME->get_FD()+ME->get_ED());
-				IEList.add(ME,(1.0/(ME->get_CD())));
-				found=true;
-                     }     
-				else
-				{
-					temp.add(R,1.0/(R->getFinishMaintenanceday()));
-				}
-				}
-				while (!temp.isEmpty())
-				{
-					temp.remove(R);
-					IMRList.add(R,(1.0/R->getFinishMaintenanceday()));
-				}
-				condition4=found;
-			}
-			else 
-				condition4=false;
-
-		}
-		///////////////////////////////////////////////////////////////////////////////////
-		bool condition5=true;
-		while (!WPMList.isEmpty()&&condition5)
-		{
-			PolarMission * ME;
-			
-			 if (!WPRList.isEmpty())
-			{
-				WPMList.dequeue(ME);
-				Polarrovers * R;
-				WPRList.remove(R);
-				ME->set_R(R);
-				ME->set_WD((Day-(ME->get_FD())));   //setting waiting days of the mission
-				int D =R->getExecutionDays(ME->get_tloc(),ME->get_mdur());
-				ME->set_ED(D);
-				ME->set_CD(ME->get_WD()+ME->get_FD()+ME->get_ED());
-				IEList.add(ME,(1.0/(ME->get_CD())));
-			}
-			 else if (!IMRList.isEmpty())
-			{
-				LinkedPriorityQueue<Rover*>temp;
-				Rover * R;
-				bool found=false;
-				
-				while (!IMRList.isEmpty()&& !found)
-				{
-				IMRList.remove(R);
-				Polarrovers* R3 = dynamic_cast<Polarrovers*>(R);
-				if(R3){
-                       R3->setspeed(R3->getspeed()/2);
-					   ME->set_R(R3);
-				ME->set_WD((Day-(ME->get_FD())));   //setting waiting days of the mission
-				int D =R3->getExecutionDays(ME->get_tloc(),ME->get_mdur());
-				ME->set_ED(D);
-				ME->set_CD(ME->get_WD()+ME->get_FD()+ME->get_ED());
-				IEList.add(ME,(1.0/(ME->get_CD())));
-				found=true;
-                     }     
-				else
-				{
-					temp.add(R,1/(R->getFinishMaintenanceday()));
-				}
-				}
-				while (!temp.isEmpty())
-				{
-					temp.remove(R);
-					IMRList.add(R,(1.0/R->getFinishMaintenanceday()));
-				}
-				condition5=found;
-			 }
-			else 
-				condition5=false;
-
-		}
-		////////////////////////////////////////////////////////////////////////////
-		bool condition6=true;
-		while (!WMMList.isEmpty()&&condition6)
-		{
-			MountainousMission * ME;
-			if (!WMRList.isEmpty())
-			{
-				WMMList.remove(0,ME);
-				Mountainousrovers * R;
-				WMRList.remove(R);
-				ME->set_R(R);
-				ME->set_WD((Day-(ME->get_FD())));   //setting waiting days of the mission
-				int D =R->getExecutionDays(ME->get_tloc(),ME->get_mdur());
-				ME->set_ED(D);
-				ME->set_CD(ME->get_WD()+ME->get_FD()+ME->get_ED());
-				IEList.add(ME,(1.0/(ME->get_CD())));
-			}
-			else if (!WERList.isEmpty())
-			{
-				WMMList.remove(0,ME);
-				Emergencyrovers * R;
-				WERList.remove(R);
-				ME->set_R(R);
-				ME->set_WD((Day-(ME->get_FD())));   //setting waiting days of the mission
-				int D =R->getExecutionDays(ME->get_tloc(),ME->get_mdur());
-				ME->set_ED(D);
-				ME->set_CD(ME->get_WD()+ME->get_FD()+ME->get_ED());
-				IEList.add(ME,(1.0/(ME->get_CD())));
-			}
-			else if (!IMRList.isEmpty())
-			{
-				LinkedPriorityQueue<Rover*>temp;
-				Rover * R;
-				bool found=false;
-				while (!IMRList.isEmpty()&& !found)
-				{
-				IMRList.remove(R);
-				Mountainousrovers* R2 = dynamic_cast<Mountainousrovers*>(R);
-				if(R2){
-                       R2->setspeed(R2->getspeed()/2);
-					   ME->set_R(R2);
-				ME->set_WD((Day-(ME->get_FD())));   //setting waiting days of the mission
-				int D =R2->getExecutionDays(ME->get_tloc(),ME->get_mdur());
-				ME->set_ED(D);
-				ME->set_CD(ME->get_WD()+ME->get_FD()+ME->get_ED());
-				IEList.add(ME,(1.0/(ME->get_CD())));
-				found=true;
-                     }     
-				else
-				{
-					temp.add(R,1.0/(R->getFinishMaintenanceday()));
-				}
-				}
-
-				while (!temp.isEmpty()&& !found)
-				{
-					IMRList.remove(R);
-				Emergencyrovers* R1 = dynamic_cast<Emergencyrovers*>(R);
-				if(R1){
-                       R1->setspeed(R1->getspeed()/2);
-					   ME->set_R(R1);
-				ME->set_WD((Day-(ME->get_FD())));   //setting waiting days of the mission
-				int D =R1->getExecutionDays(ME->get_tloc(),ME->get_mdur());
-				ME->set_ED(D);
-				ME->set_CD(ME->get_WD()+ME->get_FD()+ME->get_ED());
-				IEList.add(ME,(1.0/(ME->get_CD())));
-				found=true;
-                     }     
-				else
-				{
-					temp.add(R,1.0/(R->getFinishMaintenanceday()));
-				}
-				}
-				
-				while (!temp.isEmpty())
-				{
-					temp.remove(R);
-					IMRList.add(R,(1.0/R->getFinishMaintenanceday()));
-				}
-				condition6=found;
-			}
-		
-			else 
-				condition6=false;
-			
-
-		}
-		/////////////////////////////////////////////////////////////////////
-		bool condition7=true;
-		while (!IEList.isEmpty()&&condition7)
+		while (!IEList.isEmpty()&&condition4)
 		{
 			Mission * M;
 			IEList.peek(M);
@@ -400,20 +168,27 @@ void MarsStation::Simulate()
 				CMList.add(M,(1/(M->get_CD())));
 				Rover * R=M->get_R();
 				R->incrementmissionsdone();
-				if (R->getNomdone()==R->getnumofmissions())
+
+				//////////////////////add checkup condition here//////////////
+
+				if (R->getNomdone()==R->getnumofmissions())        //if true : the Rover need to checkup
 				{
 					R->incrementNumofcheckups();
-					R->setFinishcheckupday(Day+R->getCheckupDuration());
+					R->setFinishcheckupday(Day+R->getCheckupDuration());  //setting the day in which the Rover will get out from checkup list
 					ICURList.add(R,1.0/(R->getFinishcheckupday()));
 				}
+
 				//////////////////////add maintance condition here//////////////
-				else if (R->getNumofcheckups()>2 && R->getNomdone()==(R->getnumofmissions()+1)/2)
+
+				else if (R->getNumofcheckups()>2 && R->getNomdone()==(R->getnumofmissions()+1)/2)  //if true : the Rover need to maintance
 				{
 				int z=	(R->getCheckupDuration()+1)/2;
 				int m=Day+z;
-				R->setFinishMaintenanceday(m);
+				R->setFinishMaintenanceday(m);     //setting the day in which the Rover will get out from maintance list
 				IMRList.add(R,1.0/(R->getFinishMaintenanceday()));
 				}
+
+				////////////////////Return the Rover to it's list//////////////////////
 				else
 				{
 					Emergencyrovers* R1 = dynamic_cast<Emergencyrovers*>(R);
@@ -432,9 +207,295 @@ void MarsStation::Simulate()
 				
 			}
 			else 
-				condition7=false;
+				condition4=false;
 		}
-		////////////////////////////////////////////////////////////////////////////////////////////////
+		///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+		///////////////////////////////////////////////////////////////////////////////////////////////////////
+		                           //  Execute the Emergency Missions //
+		//////////////////////////////////////////////////////////////////////////////////////////////////////
+		bool condition5=true;
+		while (!WEMList.isEmpty()&&condition5)
+		{
+			EmergencyMission * ME;
+			if (!WERList.isEmpty())   //if true : the mission will take an emergency Rover
+			{
+				WEMList.remove(ME);
+				Emergencyrovers * R;
+				WERList.remove(R);
+				ME->set_R(R);                   // setting the Rover which will take the mission
+				ME->set_WD((Day-(ME->get_FD())));        //setting waiting days of the mission
+				int D =R->getExecutionDays(ME->get_tloc(),ME->get_mdur());
+				ME->set_ED(D);                                                 //setting the execution days of the mission
+				ME->set_CD(ME->get_WD()+ME->get_FD()+ME->get_ED());       //setting the complition day of the mission
+				IEList.add(ME,(1.0/(ME->get_CD())));        //adding the mission to in execution missions list
+			}
+
+
+			else if (!WMRList.isEmpty())    //if true : the mission will take  Mountainous Rover
+			{
+				WEMList.remove(ME);
+				Mountainousrovers * R;
+				WMRList.remove(R);
+				ME->set_R(R);                   // setting the Rover which will take the mission
+				ME->set_WD((Day-(ME->get_FD())));   //setting waiting days of the mission
+				int D =R->getExecutionDays(ME->get_tloc(),ME->get_mdur());
+				ME->set_ED(D);                                     //setting the execution days of the mission
+				ME->set_CD(ME->get_WD()+ME->get_FD()+ME->get_ED());        //setting the complition day of the mission
+				IEList.add(ME,(1.0/(ME->get_CD())));                       //adding the mission to in execution missions list
+			}
+
+
+			else if (!WPRList.isEmpty())            //if true : the mission will take  Polar Rover
+			{
+				WEMList.remove(ME);
+				Polarrovers * R;
+				WPRList.remove(R);
+				ME->set_R(R);                    // setting the Rover which will take the mission
+				ME->set_WD((Day-(ME->get_FD())));   //setting waiting days of the mission
+				int D =R->getExecutionDays(ME->get_tloc(),ME->get_mdur());
+				ME->set_ED(D);                                           //setting the execution days of the mission
+				ME->set_CD(ME->get_WD()+ME->get_FD()+ME->get_ED());             //setting the complition day of the mission
+				IEList.add(ME,(1.0/(ME->get_CD())));                      //adding the mission to in execution missions list
+			}
+
+
+
+			else if (!IMRList.isEmpty())           //if true : the mission will take Rover from the in maintance list
+			{
+				LinkedPriorityQueue<Rover*>temp;      //temp of inmaintance list
+				Rover * R;
+				bool found=false;
+				while (!IMRList.isEmpty()&& !found)        //searching for emergency rover first
+				{
+				IMRList.remove(R);
+				Emergencyrovers* R1 = dynamic_cast<Emergencyrovers*>(R);
+				if(R1){
+                       R1->setspeed(R1->getspeed()/2);        //setting the rover speed to half of the original speed
+					   ME->set_R(R1);
+				ME->set_WD((Day-(ME->get_FD())));   //setting waiting days of the mission
+				int D =R1->getExecutionDays(ME->get_tloc(),ME->get_mdur());
+				ME->set_ED(D);
+				ME->set_CD(ME->get_WD()+ME->get_FD()+ME->get_ED());
+				IEList.add(ME,(1.0/(ME->get_CD())));
+				found=true;
+                     }     
+				else
+				{
+					temp.add(R,1.0/(R->getFinishMaintenanceday()));
+				}
+				}
+
+				while (!temp.isEmpty()&& !found)    //if we didn't find emergency rover we search for Mountainous rover
+				{
+					IMRList.remove(R);
+				Mountainousrovers* R2 = dynamic_cast<Mountainousrovers*>(R);
+				if(R2){
+                       R2->setspeed(R2->getspeed()/2);         //setting the rover speed to half of the original speed
+					   ME->set_R(R2);
+				ME->set_WD((Day-(ME->get_FD())));   //setting waiting days of the mission
+				int D =R2->getExecutionDays(ME->get_tloc(),ME->get_mdur());
+				ME->set_ED(D);
+				ME->set_CD(ME->get_WD()+ME->get_FD()+ME->get_ED());
+				IEList.add(ME,(1.0/(ME->get_CD())));
+				found=true;
+                     }     
+				else
+				{
+					IMRList.add(R,1.0/(R->getFinishMaintenanceday()));
+				}
+				}
+				while (!IMRList.isEmpty()&& !found)      //if we didn't find emergency rover or Mountainous rover we search for polar rover
+				{
+				IMRList.remove(R);
+				Polarrovers* R3 = dynamic_cast<Polarrovers*>(R);
+				if(R3){
+                       R3->setspeed(R3->getspeed()/2);          //setting the rover speed to half of the original speed
+					   ME->set_R(R3);
+				ME->set_WD((Day-(ME->get_FD())));   //setting waiting days of the mission
+				int D =R3->getExecutionDays(ME->get_tloc(),ME->get_mdur());
+				ME->set_ED(D);
+				ME->set_CD(ME->get_WD()+ME->get_FD()+ME->get_ED());
+				IEList.add(ME,(1.0/(ME->get_CD())));
+				found=true;
+                     }     
+				else
+				{
+					temp.add(R,1.0/(R->getFinishMaintenanceday()));
+				}
+				}
+				while (!temp.isEmpty())        //return the rovers to the original maintance list
+				{
+					temp.remove(R);
+					IMRList.add(R,(1.0/R->getFinishMaintenanceday()));
+				}
+				condition5=found;
+			}
+			else 
+				condition5=false;         //there is no rovers to take the mission
+
+		}
+		////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+		////////////////////////////////////////////////////////////////////////////////////////////////////////
+		                                //  Execute the Polar Missions //
+		////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+		bool condition6=true;
+		while (!WPMList.isEmpty()&&condition6)         //if true : the mission will take  Polar Rover
+		{
+			PolarMission * ME;
+			
+			 if (!WPRList.isEmpty())
+			{
+				WPMList.dequeue(ME);
+				Polarrovers * R;
+				WPRList.remove(R);
+				ME->set_R(R);                      // setting the Rover which will take the mission
+				ME->set_WD((Day-(ME->get_FD())));   //setting waiting days of the mission
+				int D =R->getExecutionDays(ME->get_tloc(),ME->get_mdur());
+				ME->set_ED(D);                                          //setting the execution days of the mission
+				ME->set_CD(ME->get_WD()+ME->get_FD()+ME->get_ED());       //setting the complition day of the mission
+				IEList.add(ME,(1.0/(ME->get_CD())));                 //adding the mission to in execution missions list
+			}
+
+			 else if (!IMRList.isEmpty())     //searching for a polar rover to take the mission in maintance list
+			{
+				LinkedPriorityQueue<Rover*>temp;         //temp of inmaintance list
+				Rover * R;
+				bool found=false;
+				
+				while (!IMRList.isEmpty()&& !found)
+				{
+				IMRList.remove(R);
+				Polarrovers* R3 = dynamic_cast<Polarrovers*>(R);
+				if(R3){
+                       R3->setspeed(R3->getspeed()/2);           //setting the rover speed to half of the original speed
+					   ME->set_R(R3);
+				ME->set_WD((Day-(ME->get_FD())));   //setting waiting days of the mission
+				int D =R3->getExecutionDays(ME->get_tloc(),ME->get_mdur());
+				ME->set_ED(D);
+				ME->set_CD(ME->get_WD()+ME->get_FD()+ME->get_ED());
+				IEList.add(ME,(1.0/(ME->get_CD())));
+				found=true;
+                     }     
+				else
+				{
+					temp.add(R,1/(R->getFinishMaintenanceday()));      //adding the nonpolar rovers in the temp
+				}
+				}
+				while (!temp.isEmpty())          //return the rovers to the original maintance list
+				{
+					temp.remove(R);
+					IMRList.add(R,(1.0/R->getFinishMaintenanceday()));
+				}
+				condition6=found;
+			 }
+			else 
+				condition6=false;          //there is no rovers to take the mission
+
+		}
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		                               //  Execute the Mountainous Missions //
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+		bool condition7=true;
+		while (!WMMList.isEmpty()&&condition7)
+		{
+			MountainousMission * ME;
+			if (!WMRList.isEmpty())          //if true : the mission will take an Mountainous Rover
+			{
+				WMMList.remove(0,ME);
+				Mountainousrovers * R;
+				WMRList.remove(R);
+				ME->set_R(R);                          // setting the Rover which will take the mission
+				ME->set_WD((Day-(ME->get_FD())));   //setting waiting days of the mission
+				int D =R->getExecutionDays(ME->get_tloc(),ME->get_mdur());
+				ME->set_ED(D);                                        //setting the execution days of the mission
+				ME->set_CD(ME->get_WD()+ME->get_FD()+ME->get_ED());     //setting the complition day of the mission
+				IEList.add(ME,(1.0/(ME->get_CD())));                  //adding the mission to in execution missions list
+			}
+
+			else if (!WERList.isEmpty())           //if true : the mission will take an Emergency Rover
+			{
+				WMMList.remove(0,ME);
+				Emergencyrovers * R;
+				WERList.remove(R);
+				ME->set_R(R);                         // setting the Rover which will take the mission
+				ME->set_WD((Day-(ME->get_FD())));   //setting waiting days of the mission
+				int D =R->getExecutionDays(ME->get_tloc(),ME->get_mdur());
+				ME->set_ED(D);                                         //setting the execution days of the mission
+				ME->set_CD(ME->get_WD()+ME->get_FD()+ME->get_ED());     //setting the complition day of the mission
+				IEList.add(ME,(1.0/(ME->get_CD())));                  //adding the mission to in execution missions list
+			}
+
+			else if (!IMRList.isEmpty())             //if true : the mission will take Rover from the in maintance list
+			{
+				LinkedPriorityQueue<Rover*>temp;          //temp of inmaintance list
+				Rover * R;
+				bool found=false;
+				while (!IMRList.isEmpty()&& !found)   //searching for Mountainous rover in inmaintance list
+				{
+				IMRList.remove(R);
+				Mountainousrovers* R2 = dynamic_cast<Mountainousrovers*>(R);
+				if(R2){
+                       R2->setspeed(R2->getspeed()/2);           //setting the rover speed to half of the original speed
+					   ME->set_R(R2);                  // setting the Rover which will take the mission
+				ME->set_WD((Day-(ME->get_FD())));   //setting waiting days of the mission
+				int D =R2->getExecutionDays(ME->get_tloc(),ME->get_mdur());
+				ME->set_ED(D);                                      //setting the execution days of the mission
+				ME->set_CD(ME->get_WD()+ME->get_FD()+ME->get_ED());        //setting the complition day of the mission
+				IEList.add(ME,(1.0/(ME->get_CD())));                   //adding the mission to in execution missions list
+				found=true;
+                     }     
+				else
+				{
+					temp.add(R,1.0/(R->getFinishMaintenanceday()));     //adding the nonMountainous rovers in the temp
+				}
+				}
+
+				while (!temp.isEmpty()&& !found)      //if we didn't find Mountainous rover in inmaintance list we search for emergency rover
+				{
+					IMRList.remove(R);
+				Emergencyrovers* R1 = dynamic_cast<Emergencyrovers*>(R);
+				if(R1){
+                       R1->setspeed(R1->getspeed()/2);          //setting the rover speed to half of the original speed
+					   ME->set_R(R1);                   // setting the Rover which will take the mission
+				ME->set_WD((Day-(ME->get_FD())));   //setting waiting days of the mission
+				int D =R1->getExecutionDays(ME->get_tloc(),ME->get_mdur());
+				ME->set_ED(D);                                       //setting the execution days of the mission
+				ME->set_CD(ME->get_WD()+ME->get_FD()+ME->get_ED());      //setting the complition day of the mission
+				IEList.add(ME,(1.0/(ME->get_CD())));
+				found=true;
+                     }     
+				else
+				{
+					IMRList.add(R,1.0/(R->getFinishMaintenanceday()));   //return the rovers to the original maintance list
+				}
+				}
+				
+				/*while (!temp.isEmpty())
+				{
+					temp.remove(R);
+					IMRList.add(R,(1.0/R->getFinishMaintenanceday()));
+				}*/
+				condition7=found;
+			}
+		
+			else 
+				condition7=false;       //there is no rovers to take the mission
+			
+
+		}
+		///////////////////////////////////////////////////////////////////////////////////////////////////////////
+		
+		///////////////////////////////////////////////////////////////////////////////////////////////////////////
 		if(modeOfSim == 1){
 			ui->printDataOfDay(Day);
 			ui->waitEnter();

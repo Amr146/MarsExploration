@@ -16,6 +16,7 @@ void UI::loadInputFile(){						//	loading input file
 	do {
 		std::cout << "Please enter the name of the input file" << endl;
 		cin >> inputfile;
+		cin.ignore();
 		inputFile.open("Input\\" + inputfile + ".txt", ios::in);		
 	} while (!inputFile.is_open());				//Checking if the file is open		
 	int M, P, E, N, CM, CP, CE;
