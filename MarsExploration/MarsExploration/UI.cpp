@@ -222,6 +222,7 @@ void UI::printDataOfDay(int day){
 	while(WMMList->remove(m++ ,mMissionPtr)){			//	how to remove each element in this list??
 		n++;
 		dayDetails += (to_string(mMissionPtr->get_id())+",");
+		mMissionTemp.enqueue(mMissionPtr);
 	}
 	//returning the missions to its DS
 	while (!mMissionTemp.isEmpty())
@@ -254,12 +255,13 @@ void UI::printDataOfDay(int day){
 			dayDetails3 += (to_string(mission->get_id()) + "/" + to_string(mission->get_R()->getid()));
 			dayDetails3 += ",";
 		}
+		missionTemp.enqueue(mission);
 	}
 	//returning the missions to its DS
 	while (!missionTemp.isEmpty())
 	{
 		missionTemp.dequeue(mission);
-		inExecution->add(mission, 1/(mission->get_CD()));
+		inExecution->add(mission, 100.0/(mission->get_CD()));
 	}
 	if(dayDetails.back() == ',')
 		dayDetails.pop_back();
@@ -282,6 +284,7 @@ void UI::printDataOfDay(int day){
 	while(WERList->remove(eRoverPtr)){
 		n++;
 		dayDetails += (to_string(eRoverPtr->getid())+",");
+		ERoverTemp.enqueue(eRoverPtr);
 	}
 	//returning the Rovers to its DS
 	while (!ERoverTemp.isEmpty())
@@ -298,6 +301,7 @@ void UI::printDataOfDay(int day){
 	while(WPRList->remove(pRoverPtr)){
 		n++;
 		dayDetails += (to_string(pRoverPtr->getid())+",");
+		PRoverTemp.enqueue(pRoverPtr);
 	}
 	//returning the Rovers to its DS
 	while (!PRoverTemp.isEmpty())
@@ -313,6 +317,7 @@ void UI::printDataOfDay(int day){
 	while(WMRList->remove(mRoverPtr)){
 		n++;
 		dayDetails += (to_string(mRoverPtr->getid()) + ",");
+		MRoverTemp.enqueue(mRoverPtr);
 	}
 	//returning the Rovers to its DS
 	while (!MRoverTemp.isEmpty())
@@ -341,13 +346,14 @@ void UI::printDataOfDay(int day){
 			dayDetails2 += (to_string(rover->getid()) + ",");
 		else if(dynamic_cast<Mountainousrovers*>(rover))
 			dayDetails3 += (to_string(rover->getid()) + ",");
+		roverTemp.enqueue(rover);
 	}
 
 	//returning the Rovers to its DS
 	while (!roverTemp.isEmpty())
 	{
 		roverTemp.dequeue(rover);
-		ICURList->add(rover, (1/rover->getFinishcheckupday()));
+		ICURList->add(rover, (100.0/rover->getFinishcheckupday()));
 	}
 
 	if(dayDetails.back() == ',')
@@ -378,6 +384,7 @@ void UI::printDataOfDay(int day){
 			dayDetails2 += (to_string(mission->get_id()) + ",");
 		else if(dynamic_cast<MountainousMission*>(mission))
 			dayDetails3 += (to_string(mission->get_id()) + ",");
+		missionTemp.enqueue(mission);
 	}
 
 	//returning the Missions to its DS
@@ -399,9 +406,6 @@ void UI::printDataOfDay(int day){
 	dayDetails3 += "}";
 
 	cout << n << " Completed Missions: " << dayDetails << " " << dayDetails2 << " " << dayDetails3 << endl << endl << endl;
-
-
-
 
 }
 
