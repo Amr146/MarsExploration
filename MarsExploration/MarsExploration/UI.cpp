@@ -152,52 +152,45 @@ void UI::createOutputFile(){
 }
 
 void UI::printDataOfDay(int day){
-	LinkedQueue<PolarMission*>* WPMList = station->polarMissions();				//	Pointer to the waiting polar missions
-	LinkedList<MountainousMission*>* WMMList =station->mountMissions();			//	Pointer to the waiting mount missions
-	LinkedPriorityQueue<EmergencyMission*>* WEMList = station->emergMissions();	//	Pointer to the waiting emerg missions
-
-	LinkedPriorityQueue<Mission*>* inExecution = station->inExec();				//	Pointer to the in execution missions
-
+	LinkedQueue<PolarMission*>* WPMList = station->polarMissions();					//	Pointer to the waiting polar missions
+	LinkedList<MountainousMission*>* WMMList =station->mountMissions();				//	Pointer to the waiting mount missions
+	LinkedPriorityQueue<EmergencyMission*>* WEMList = station->emergMissions();		//	Pointer to the waiting emerg missions
+	LinkedPriorityQueue<Mission*>* inExecution = station->inExec();					//	Pointer to the in execution missions
 	LinkedPriorityQueue<Polarrovers*>* WPRList = station->polarRovers();			//	Pointer to the waiting polar rovers
 	LinkedPriorityQueue<Mountainousrovers*>* WMRList = station->mountRovers();		//	Pointer to the waiting mount rovers
 	LinkedPriorityQueue<Emergencyrovers*>* WERList = station->emergRovers();		//	Pointer to the waiting emerg rovers
-	
-	LinkedPriorityQueue<Rover*>* ICURList = station->inCheck();					//	Pointer to the in check-up rovers
-
+	LinkedPriorityQueue<Rover*>* ICURList = station->inCheck();						//	Pointer to the in check-up rovers
+	LinkedPriorityQueue<Rover*>* IMRList = station->inMaint();						//	Pointer to the in maintainance rovers
 	LinkedPriorityQueue<Mission*>* CMList = station->completedMissions();			//	Pointer to the in in completed missions
 	
 
 	LinkedQueue<Mission*> missionTemp;						//temp queue for missions
-
 	LinkedQueue<PolarMission*> pMissionTemp;				//temp queue for polar missions
 	LinkedQueue<MountainousMission*> mMissionTemp;			//temp queue for mount missions
 	LinkedQueue<EmergencyMission*> eMissionTemp;			//temp queue for emerg missions
-
 	LinkedQueue<Rover*> roverTemp;							//temp queue for rovers
-
 	LinkedQueue<Polarrovers*> PRoverTemp;					//temp queue for polar rovers
 	LinkedQueue<Mountainousrovers*> MRoverTemp;				//temp queue mount for rovers
 	LinkedQueue<Emergencyrovers*> ERoverTemp;				//temp queue for emerg rovers
 
 
+	PolarMission* pMissionPtr;							//	Pointer to polar mission
+	MountainousMission* mMissionPtr;					//	Pointer to mount mission
+	EmergencyMission* eMissionPtr;						//	Pointer to emerg mission
+	Mission* mission;									//	Pointer to mission
+	Polarrovers* pRoverPtr;								//	Pointer to polar rover
+	Mountainousrovers* mRoverPtr;						//	Pointer to mount rover
+	Emergencyrovers* eRoverPtr;							//	Pointer to emerg rover
+	Rover* rover;										//	Pointer to rover
+
 	string dayDetails = "[";
 	int n = 0;
 
-	PolarMission* pMissionPtr;
-	MountainousMission* mMissionPtr;
-	EmergencyMission* eMissionPtr;
-
-	Mission* mission;
-
-	Polarrovers* pRoverPtr;
-	Mountainousrovers* mRoverPtr;
-	Emergencyrovers* eRoverPtr;
-
-	Rover* rover;
-
 	std::cout << "Current day:" << day << "\n";
 	
-	//	Printing waiting missions
+	//////////////////////////////////////////////////////////
+	//	Printing waiting missions	//////////////////////////
+	//////////////////////////////////////////////////////////
 
 	//	Getting IDs of waiting emerg missions
 	while(WEMList->remove(eMissionPtr)){
@@ -250,8 +243,9 @@ void UI::printDataOfDay(int day){
 
 	std::cout << n << " Waiting Missions: " << dayDetails << endl;
 
-	/////////////////////////////////////////////////////////////
-	//	printing in execution missions
+	//////////////////////////////////////////////////////////
+	//	Printing in execution missions	//////////////////////
+	//////////////////////////////////////////////////////////
 	n = 0;
 	dayDetails = "[";
 	string dayDetails2 = "(";
@@ -290,8 +284,10 @@ void UI::printDataOfDay(int day){
 
 	std::cout << n << " In-Execution Missions/Rovers: " << dayDetails << " " << dayDetails2 << " " << dayDetails3 << endl;
 
-	/////////////////////////////////////////////////////////////
-	//	printing available rovers
+	//////////////////////////////////////////////////////////
+	//	printing available rovers	//////////////////////////
+	//////////////////////////////////////////////////////////
+
 	n = 0;
 	dayDetails = "[";
 	//	Getting IDs of waiting emerg rovers
@@ -345,8 +341,10 @@ void UI::printDataOfDay(int day){
 
 	std::cout << n << " Available Rovers: " << dayDetails << endl;
 
-	/////////////////////////////////////////////////////////////
-	//	printing in checkup rovers
+	//////////////////////////////////////////////////////////
+	//	printing in checkup rovers	//////////////////////////
+	//////////////////////////////////////////////////////////
+
 	n = 0;
 	dayDetails = "[";
 	dayDetails2 = "(";
@@ -382,9 +380,51 @@ void UI::printDataOfDay(int day){
 	dayDetails3 += "}";
 
 	std::cout << n << " In-Checkup Rovers: " << dayDetails << " " << dayDetails2 << " " << dayDetails3 << endl;
+	
+	//////////////////////////////////////////////////////////
+	//	printing in maintainance rovers	//////////////////////
+	//////////////////////////////////////////////////////////
 
-	/////////////////////////////////////////////////////////////
-	//	printing in completed missions
+	n = 0;
+	dayDetails = "[";
+	dayDetails2 = "(";
+	dayDetails3 = "{";
+
+	while(IMRList->remove(rover)){
+		n++;
+		if(dynamic_cast<Emergencyrovers*>(rover))
+			dayDetails += (to_string(rover->getid()) + ",");
+		else if(dynamic_cast<Polarrovers*>(rover))
+			dayDetails2 += (to_string(rover->getid()) + ",");
+		else if(dynamic_cast<Mountainousrovers*>(rover))
+			dayDetails3 += (to_string(rover->getid()) + ",");
+		roverTemp.enqueue(rover);
+	}
+
+	//returning the Rovers to its DS
+	while (!roverTemp.isEmpty())
+	{
+		roverTemp.dequeue(rover);
+		IMRList->add(rover, (100.0/rover->getFinishcheckupday()));
+	}
+
+	if(dayDetails.back() == ',')
+		dayDetails.pop_back();
+	if(dayDetails2.back() == ',')
+		dayDetails2.pop_back();
+	if(dayDetails3.back() == ',')
+		dayDetails3.pop_back();
+
+	dayDetails += "]";
+	dayDetails2 += ")";
+	dayDetails3 += "}";
+
+	std::cout << n << " In-Maintainance Rovers: " << dayDetails << " " << dayDetails2 << " " << dayDetails3 << endl;
+	
+	//////////////////////////////////////////////////////
+	//	Printing completed missions	//////////////////////
+	//////////////////////////////////////////////////////
+
 	n = 0;
 	dayDetails = "[";
 	dayDetails2 = "(";

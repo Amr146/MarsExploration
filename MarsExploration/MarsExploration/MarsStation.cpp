@@ -592,8 +592,8 @@ LinkedPriorityQueue<Rover*>* MarsStation::inCheck(){
 	return &ICURList;
 }
 
-LinkedPriorityQueue<Mission*>* MarsStation::compMissions(){
-	return &CMList;
+LinkedPriorityQueue<Rover*>* MarsStation::inMaint(){
+	return &IMRList;
 }
 
 void MarsStation::setMode(int mode){

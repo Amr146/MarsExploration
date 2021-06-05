@@ -82,7 +82,7 @@ public:
 
 	LinkedPriorityQueue<Rover*>* inCheck();
 
-	LinkedPriorityQueue<Mission*>* compMissions();
+	LinkedPriorityQueue<Rover*>* inMaint();
 
 	void setMode(int mode);
 
