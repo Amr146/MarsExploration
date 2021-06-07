@@ -90,6 +90,9 @@
     <ClInclude Include="Rovers\Rover.h">
       <Filter>Rovers</Filter>
     </ClInclude>
+    <ClInclude Include="UI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DS_TEST.cpp">
