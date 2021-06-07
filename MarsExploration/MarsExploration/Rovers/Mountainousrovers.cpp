@@ -50,7 +50,7 @@ Mountainousrovers::Mountainousrovers(double speed ,int nom,int checkupDuration):
 	 }
 	 void Mountainousrovers:: setNomdone (int nomdone)
 	 {
-		  if (nomdone>0)
+		 
 			  Nomdone=nomdone;
 
 	 }

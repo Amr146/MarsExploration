@@ -73,7 +73,7 @@ int Rover::count = 0;
 	 }
 	 void Rover:: setNomdone (int nomdone)
 	 {
-		  if (nomdone>0)
+		
 			  Nomdone=nomdone;
 
 	 }

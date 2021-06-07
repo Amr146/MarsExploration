@@ -51,7 +51,7 @@ Polarrovers::Polarrovers(double speed ,int nom,int checkupDuration):Rover(speed,
 	 }
 	 void Polarrovers:: setNomdone (int nomdone)
 	 {
-		  if (nomdone>0)
+		 
 			  Nomdone=nomdone;
 
 	 }

@@ -1,9 +1,11 @@
 #include "MarsStation.h"
 #include"UI.h"
-
+#include <iostream>
+using namespace std;
 MarsStation::MarsStation(){
 	ui = new UI(this);
 	auto_promoted = 0;
+	numberofmount=0;
 	Day=1;
 	modeOfSim = ui->getModeOfSim();
 }
@@ -11,6 +13,7 @@ MarsStation::MarsStation(){
 void MarsStation::Simulate()
 {
 	ReadInput();               //reading the text file
+	bool enterednumberofmount=false;
 	if(modeOfSim == 3)
 		ui->silentMode();
 	//////////////////////////////////////////////////////////////////////////////////////////////////
@@ -123,6 +126,14 @@ void MarsStation::Simulate()
 		/////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		     //        getting the total number of mountainous missions (needed for %autop)   //
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		if (EventList.isEmpty() && !enterednumberofmount && auto_promoted==0)
+		{
+			numberofmount=WMMList.getLength();
+		}
+
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		  // searching for the mountainous mission which should be Auto promoted to Emergency mission //
@@ -132,17 +143,24 @@ void MarsStation::Simulate()
 		while (!WMMList.isEmpty()&&z)
 		{
 			int index;
+			bool entered =false;
 	  MountainousMission* temp;
 	  int N = WMMList.getLength();
 	for (index = 0; index < N; index++)
 	{
-		if (WMMList.getEntry(index)->getAutoPDay() == Day)
+		if (z && index!=0 && entered)
+			index--;
+		if (WMMList.getEntry(index)->get_FD()+autoP == Day)
 		{
+			auto_promoted++;
+			entered =true;
 			z=true;
 			WMMList.remove(index, temp);
 	        EmergencyMission* newMission = new EmergencyMission(temp->get_id(), temp->get_tloc(), temp->get_mdur(), temp->get_si(), temp->get_FD());
 	        delete temp;
 	        WEMList.add(newMission, newMission->get_pri());
+			
+			N--;
 		}
 		else
 			z=false;
@@ -181,7 +199,7 @@ void MarsStation::Simulate()
 
 				//////////////////////add maintance condition here//////////////
 
-				else if (R->getNumofcheckups()>2 && R->getNomdone()==(R->getnumofmissions()+1)/2)  //if true : the Rover need to maintance
+				else if (R->getNumofcheckups()>2 && R->getNomdone()==int ((R->getnumofmissions()+1)/2))  //if true : the Rover need to maintance
 				{
 				int z=	(R->getCheckupDuration()+1)/2;
 				int m=Day+z;
@@ -274,6 +292,7 @@ void MarsStation::Simulate()
 				IMRList.remove(R);
 				Emergencyrovers* R1 = dynamic_cast<Emergencyrovers*>(R);
 				if(R1){
+					WEMList.remove(ME);
                        R1->setspeed(R1->getspeed()/2);        //setting the rover speed to half of the original speed
 					   ME->set_R(R1);
 				ME->set_WD((Day-(ME->get_FD())));   //setting waiting days of the mission
@@ -294,6 +313,7 @@ void MarsStation::Simulate()
 					IMRList.remove(R);
 				Mountainousrovers* R2 = dynamic_cast<Mountainousrovers*>(R);
 				if(R2){
+					WEMList.remove(ME);
                        R2->setspeed(R2->getspeed()/2);         //setting the rover speed to half of the original speed
 					   ME->set_R(R2);
 				ME->set_WD((Day-(ME->get_FD())));   //setting waiting days of the mission
@@ -313,6 +333,7 @@ void MarsStation::Simulate()
 				IMRList.remove(R);
 				Polarrovers* R3 = dynamic_cast<Polarrovers*>(R);
 				if(R3){
+					WEMList.remove(ME);
                        R3->setspeed(R3->getspeed()/2);          //setting the rover speed to half of the original speed
 					   ME->set_R(R3);
 				ME->set_WD((Day-(ME->get_FD())));   //setting waiting days of the mission
@@ -374,6 +395,7 @@ void MarsStation::Simulate()
 				IMRList.remove(R);
 				Polarrovers* R3 = dynamic_cast<Polarrovers*>(R);
 				if(R3){
+					WPMList.dequeue(ME);
                        R3->setspeed(R3->getspeed()/2);           //setting the rover speed to half of the original speed
 					   ME->set_R(R3);
 				ME->set_WD((Day-(ME->get_FD())));   //setting waiting days of the mission
@@ -446,6 +468,7 @@ void MarsStation::Simulate()
 				IMRList.remove(R);
 				Mountainousrovers* R2 = dynamic_cast<Mountainousrovers*>(R);
 				if(R2){
+					WMMList.remove(0,ME);
                        R2->setspeed(R2->getspeed()/2);           //setting the rover speed to half of the original speed
 					   ME->set_R(R2);                  // setting the Rover which will take the mission
 				ME->set_WD((Day-(ME->get_FD())));   //setting waiting days of the mission
@@ -466,6 +489,7 @@ void MarsStation::Simulate()
 					IMRList.remove(R);
 				Emergencyrovers* R1 = dynamic_cast<Emergencyrovers*>(R);
 				if(R1){
+					WMMList.remove(0,ME);
                        R1->setspeed(R1->getspeed()/2);          //setting the rover speed to half of the original speed
 					   ME->set_R(R1);                   // setting the Rover which will take the mission
 				ME->set_WD((Day-(ME->get_FD())));   //setting waiting days of the mission
@@ -506,6 +530,8 @@ void MarsStation::Simulate()
 		}
 		Day++;
 	}
+	cout<<auto_promoted<<endl;
+	cout<<numberofmount<<endl;
 	ui->createOutputFile();
 }
 
@@ -607,6 +633,11 @@ int MarsStation::getMode(){
 
 int MarsStation::getAutoPromoted(){
 	return auto_promoted;
+}
+
+int MarsStation:: getnumberofmount()
+{
+	return numberofmount;
 }
 
 void MarsStation::failed_func(LinkedPriorityQueue<Mission*>& ine_M)

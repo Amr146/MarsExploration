@@ -51,7 +51,7 @@ Emergencyrovers::Emergencyrovers(double speed ,int nom,int checkupDuration):Rove
 	 }
 	 void Emergencyrovers:: setNomdone (int nomdone)
 	 {
-		  if (nomdone>0)
+		 
 			  Nomdone=nomdone;
 
 	 }

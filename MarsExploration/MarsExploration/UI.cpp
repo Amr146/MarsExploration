@@ -143,7 +143,7 @@ void UI::createOutputFile(){
 		}else{
 			outputFile << "Avg Wait= " << 1.0*totalWait/totalMissions << ", Avg Exec = " << 1.0*totalExecution/totalMissions << "\n";
 
-			outputFile << "Auto-Promoted: " << 100.0*station->getAutoPromoted()/totalMissions << "%\n"; 
+			outputFile << "Auto-Promoted: " << 100.0*station->getAutoPromoted()/station->getnumberofmount() << "%\n"; 
 		}
 		
 	}
