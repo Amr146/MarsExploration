@@ -7,11 +7,11 @@ class FormulationEvent :
 private:
     //mission Type enum to indicate the mission type
     MissionType mt;
-    //mission’s target location (in kilometers from the base station) 
+    //missionï¿½s target location (in kilometers from the base station) 
     double TLOC;
     //the number of days needed to fulfill the mission requirements at target location
     int MDUR;
-    //the mission’s significance
+    //the missionï¿½s significance
     double SIG;
 public:
     FormulationEvent(MissionType MT, int ed, int id, double Tloc, int Mdur, double Sig);

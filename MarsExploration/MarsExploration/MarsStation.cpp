@@ -86,6 +86,7 @@ void MarsStation::Simulate()
 		}
 		//////////////////////////////////////////////////////////////////////////////////////////////////////
 
+		failed_func(IEList);    // Check if there any mission failed 
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////////
 		                                      // Execute the events //
@@ -607,6 +608,72 @@ int MarsStation::getMode(){
 int MarsStation::getAutoPromoted(){
 	return auto_promoted;
 }
+
+void MarsStation::failed_func(LinkedPriorityQueue<Mission*>& ine_M)
+{
+	Mission* m;
+	if(ine_M.isEmpty())
+		return;
+	ine_M.remove(m);
+
+	failed_func(ine_M);  //recursive call to get whole mission in the list
+
+	if(m->get_sprob()<=Day)  // check if rovers arrive to the target location and execute the mission
+	{
+		ine_M.add(m,(1.0/(m->get_CD())));
+		return;
+	}
+	else if(m->get_fprob()<=0)  // check if the mission failed
+	{
+		/////////////////////////////////////////////////////////////////////////////////
+		///////////// re-formulate the mission and add to waiting missio n///////////////
+		/////////////////////////////////////////////////////////////////////////////////
+		
+		m->set_FD(Day);
+		MountainousMission* MM=dynamic_cast<MountainousMission*>(m);
+		if(MM)
+			WMMList.insert(MM);
+		EmergencyMission* EM=dynamic_cast<EmergencyMission*>(m);
+		if(EM)
+			WEMList.add(EM,EM->get_pri());
+		PolarMission* PM=dynamic_cast<PolarMission*>(m);
+		if(PM)
+			WPMList.enqueue(PM);
+
+		///////////////////////////////////////////////////////////////
+		//////////// send rover to be checked up  /////////////////////
+		///////////////////////////////////////////////////////////////
+
+		Rover* r;
+		r=m->get_R();
+		m->set_R(nullptr);
+
+		if(m->get_td_days()>Day) // check rover if not arrive to the target location
+		{
+			r->setFinishcheckupday(Day+(Day-m->get_FD()-m->get_WD())+r->getCheckupDuration());
+			ICURList.add(r,1.0/(r->getFinishcheckupday()));
+			r->incrementNumofcheckups();
+		}
+		else
+		{
+			r->setFinishcheckupday(Day+(m->get_td_days()-m->get_FD()-m->get_WD())+r->getCheckupDuration());
+			ICURList.add(r,1.0/(r->getFinishcheckupday()));
+			r->incrementNumofcheckups();
+		}
+
+		return;
+	}
+
+	else  // mission in-executing and changes failed probability 
+	{
+		m->set_fprob(m->get_fprob()- static_cast <float> (rand()));
+		ine_M.add(m,(1.0/(m->get_CD())));
+		return;
+	}
+
+
+}
+
 
 MarsStation::~MarsStation(){
 	delete ui;

@@ -11,6 +11,9 @@ protected:
 	int WD;
 	int CD;
 	int ED;
+	double fprob;  // failed probability
+	double sprob;  // success probability
+	int td_days; // day that the rover arrive to the target location
 	// pointer to rover
 	Rover* R;
 public:
@@ -33,5 +36,9 @@ public:
 	virtual int get_CD();
 	virtual void set_ED(int ed);
 	virtual int get_ED();
+	virtual void set_fprob(double FP);
+	virtual double get_fprob();
+	virtual double get_sprob();
+	virtual int get_td_days();
 	~Mission();
 };

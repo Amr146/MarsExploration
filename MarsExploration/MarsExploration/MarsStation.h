@@ -90,6 +90,8 @@ public:
 
 	int getAutoPromoted();
 
+	void failed_func(LinkedPriorityQueue<Mission*>& ine_M);
+
 	~MarsStation();
 };
 #endif

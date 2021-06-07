@@ -24,6 +24,7 @@ int Rover::count = 0;
 		Numofcheckups=0; //intaial value
 		Finishcheckupday = 0;
 		FinishMaintenanceday = 0;
+		M_Speed=Speed;
     }
    void Rover:: setspeed(double speed)
 	{
@@ -113,6 +114,12 @@ int Rover::count = 0;
 	int Rover::getid(){
 		return ID;
 	}
+
+	double Rover::get_mspeed()
+	{
+		return M_Speed;
+	}
+
 
 
 

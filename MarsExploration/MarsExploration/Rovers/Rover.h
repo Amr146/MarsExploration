@@ -6,12 +6,14 @@ protected:
 	
 	int ID;
 	double Speed;
+	double M_Speed; //max speed
 	int Nom;   //=4   //number of missions can be done before checkup
 	int CheckupDuration;  //number of days to finish checkup
 	int Finishcheckupday;  //the day that the rover finish checkup in and ready to take mission
 	int FinishMaintenanceday; //(bonus)the day that the rover finish Maintenance in and ready to take mission
 	int Nomdone;     //number of missions done by rover before its checkup
 	int Numofcheckups; //number of checkups done fore the rover
+	
 public:
 	Rover();
 	Rover(double speed ,int nom,int checkupDuration );
@@ -35,6 +37,8 @@ public:
 
 	virtual void setid(int id);
 	virtual int getid();
+
+	virtual double get_mspeed();
 
 
 	~Rover(void);
