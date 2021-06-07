@@ -140,10 +140,14 @@ void UI::createOutputFile(){
 			outputFile << "Avg Wait= " << 0 << ", Avg Exec = " << 0 << "\n";
 
 			outputFile << "Auto-Promoted: " << 0 << "%\n"; 
+		}else if(!(Mmission + station->getAutoPromoted())){
+			outputFile << "Avg Wait= " << 1.0*totalWait/totalMissions << ", Avg Exec = " << 1.0*totalExecution/totalMissions << "\n";
+
+			outputFile << "Auto-Promoted: " << 0 << "%\n";
 		}else{
 			outputFile << "Avg Wait= " << 1.0*totalWait/totalMissions << ", Avg Exec = " << 1.0*totalExecution/totalMissions << "\n";
 
-			outputFile << "Auto-Promoted: " << 100.0*station->getAutoPromoted()/(double(Mmission) + station->getAutoPromoted()) << "%\n"; 
+			outputFile << "Auto-Promoted: " << 100.0*station->getAutoPromoted()/(Mmission + station->getAutoPromoted()) << "%\n"; 
 		}
 		
 	}
