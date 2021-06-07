@@ -74,11 +74,12 @@ void UI::loadInputFile(){						//	loading input file
 				//	skip this incorrect line
 			}
 		}
+		inputFile.close();		//	closing input file
+		delete[]SM;
+		delete[]SP;
+		delete[]SE;
 	}
-	inputFile.close();		//	closing input file
-	delete []SM;
-	delete []SP;
-	delete []SE;
+	
 }
 
 void UI::createOutputFile(){
@@ -91,13 +92,12 @@ void UI::createOutputFile(){
 
 	if(outputFile.is_open())
 	{ }
-	else
-	{
-		mkdir("Output");		//create the Save Directory and check if created successfully
+	else if(_mkdir("Output") == 0) //create the Save Directory and check if created successfully
+	{		
 		outputFile.open("Output\\" + inputfile + "_Output.txt", ios::out);
 	}
 	if(outputFile.is_open()){
-		outputFile << "CD ID FD WD ED\n";
+		outputFile << "CD" << "\t" << "ID" << "\t" << "FD" << "\t" << "WD" << "\t" << "ED\n";
 		Mission* mission;
 		Polarrovers* pRoverPtr;
 		Mountainousrovers* mRoverPtr;
@@ -128,7 +128,7 @@ void UI::createOutputFile(){
 			totalWait += mission->get_WD();
 			totalExecution += mission->get_ED();
 
-			outputFile << mission->get_CD() << " " << mission->get_id() << " " << mission->get_FD() << " " << mission->get_WD() << " " << mission->get_ED() << "\n";
+			outputFile << mission->get_CD() << "\t" << mission->get_id() << "\t" << mission->get_FD() << "\t" << mission->get_WD() << "\t" << mission->get_ED() << "\n";
 		}
 
 		outputFile << "....................................................\n....................................................\n";
@@ -143,7 +143,7 @@ void UI::createOutputFile(){
 		}else{
 			outputFile << "Avg Wait= " << 1.0*totalWait/totalMissions << ", Avg Exec = " << 1.0*totalExecution/totalMissions << "\n";
 
-			outputFile << "Auto-Promoted: " << 100.0*station->getAutoPromoted()/(Mmission + station->getAutoPromoted()) << "%\n"; 
+			outputFile << "Auto-Promoted: " << 100.0*station->getAutoPromoted()/(double(Mmission) + station->getAutoPromoted()) << "%\n"; 
 		}
 		
 	}

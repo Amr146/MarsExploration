@@ -87,7 +87,7 @@
     <ClInclude Include="UI.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="DS_TEST.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="Events\CancellationEvent.cpp" />
     <ClCompile Include="Events\FormulationEvent.cpp" />
     <ClCompile Include="Events\PromotionEvent.cpp" />
