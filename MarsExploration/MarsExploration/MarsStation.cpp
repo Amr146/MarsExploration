@@ -476,7 +476,7 @@ void MarsStation::Simulate()
 
 				while (!temp.isEmpty()&& !found)      //if we didn't find Mountainous rover in inmaintance list we search for emergency rover
 				{
-					IMRList.remove(R);
+					temp.remove(R);
 				Emergencyrovers* R1 = dynamic_cast<Emergencyrovers*>(R);
 				if(R1){
 					WMMList.remove(0,ME);
