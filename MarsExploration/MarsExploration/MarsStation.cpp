@@ -19,7 +19,7 @@ void MarsStation::Simulate()
 	                            //     starting simulation from Day 1  //
 	/////////////////////////////////////////////////////////////////////////////////////////////////
 
-	while (!EventList.isEmpty() || !WPMList.isEmpty() || !WMMList.isEmpty() || !WEMList.isEmpty() || !IEList.isEmpty())
+	while (!EventList.isEmpty() || !WPMList.isEmpty() || !WMMList.isEmpty() || !WEMList.isEmpty() || !IEList.isEmpty() ||!IMRList.isEmpty() || !ICURList.isEmpty())
 	{
 		//////////////////////////////////////////////////////////////////////////////////////////
 	     //  searching for the rovers which finished checkup and return it back to it's list //
