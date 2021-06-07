@@ -28,7 +28,7 @@ private:
 	int Day;
 	int modeOfSim;
 protected:
-	LinkedPriorityQueue<Event*> EventList;		//	why not only queue ?
+	LinkedPriorityQueue<Event*> EventList;
 	LinkedQueue<PolarMission*> WPMList;
 	LinkedList<MountainousMission*> WMMList;
 	LinkedPriorityQueue<EmergencyMission*> WEMList;

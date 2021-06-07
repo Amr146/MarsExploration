@@ -62,12 +62,6 @@ int Mission::get_FD()
 void Mission::set_R(Rover* r)
 {
 	R = r;
-	if(R)
-	{
-		sprob=(((tloc/R->getspeed())/25)+mdur)+WD+FD; // rovers arriver and executed the mission ( the day that the rover will come back from the target location)
-		fprob=2*(((tloc/R->get_mspeed())/25)+mdur);   // mission failed probability equation
-		td_days=int(((tloc/R->get_mspeed())/25)+WD+FD);  // day that the rover arrive to the target location
-	}
 }
 Rover* Mission::get_R()
 {
@@ -84,6 +78,12 @@ int Mission::get_WD(){
 
 void Mission::set_CD(int cd){
 	CD = cd;
+	if(R)
+	{
+		sprob=(((tloc/R->getspeed())/25)+mdur)+WD+FD; // rovers arriver and executed the mission ( the day that the rover will come back from the target location)
+		fprob=0.7*(((tloc/R->get_mspeed())/25))+mdur;   // mission failed probability equation
+		td_days=int(((tloc/R->getspeed())/25)+WD+FD);  // day that the rover arrive to the target location
+	}
 }
 
 int Mission::get_CD(){

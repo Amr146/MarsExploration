@@ -1,6 +1,7 @@
 #include "MarsStation.h"
 #include"UI.h"
 #include <iostream>
+#include <random>
 using namespace std;
 MarsStation::MarsStation(){
 	ui = new UI(this);
@@ -534,21 +535,21 @@ void MarsStation::WriteOutput(){}
 void MarsStation::createMrovers(int n, double* speed, int nom, int checkUp){
 	for(int i = 0; i < n; i++){
 		Mountainousrovers* newMrover = new Mountainousrovers(speed[i], nom, checkUp);
-		WMRList.add(newMrover, 0);		//	what is the default priority
+		WMRList.add(newMrover, speed[i]);
 	}
 }
 
 void MarsStation::createProvers(int n, double* speed, int nom, int checkUp){
 	for(int i = 0; i < n; i++){
 		Polarrovers* newMrover = new Polarrovers(speed[i], nom, checkUp);
-		WPRList.add(newMrover, 0);		//	what is the default priority
+		WPRList.add(newMrover, speed[i]);
 	}
 }
 
 void MarsStation::createErovers(int n, double* speed, int nom, int checkUp){
 	for(int i = 0; i < n; i++){
 		Emergencyrovers* newMrover = new Emergencyrovers(speed[i], nom, checkUp);
-		WERList.add(newMrover, 0);		//	what is the default priority
+		WERList.add(newMrover, speed[i]);
 	}
 }
 
@@ -558,17 +559,17 @@ void MarsStation::setAutoP(int n){
 
 void MarsStation::addFEvent(MissionType type, int ed, int id, int tloc, int mdur, int sig){
 	FormulationEvent* fEvent = new FormulationEvent(type, ed, id, tloc, mdur, sig);
-	EventList.add(fEvent, 10.0/ed);					//	what is the priority of this queue
+	EventList.add(fEvent, 10.0/ed);
 }
 
 void MarsStation::addXEvent(int ed, int id){
 	CancellationEvent* xEvent = new CancellationEvent(ed, id);
-	EventList.add(xEvent, 10.0/ed);					//	what is the priority of this queue
+	EventList.add(xEvent, 10.0/ed);
 }
 
 void MarsStation::addPEvent(int ed, int id){
 	PromotionEvent* pEvent = new PromotionEvent(ed, id);
-	EventList.add(pEvent, 10.0/ed);					//	what is the priority of this queue
+	EventList.add(pEvent, 10.0/ed);
 }
 
 LinkedPriorityQueue<Mission*>* MarsStation::completedMissions(){
@@ -637,29 +638,17 @@ void MarsStation::failed_func(LinkedPriorityQueue<Mission*>& ine_M)
 		ine_M.add(m,(1.0/(m->get_CD())));
 		return;
 	}
-	else if(m->get_fprob()<=0)  // check if the mission failed
+	else if(m->get_fprob()<=0 && m->get_R()->getNomdone()!=0)  // check if the mission failed
 	{
-		/////////////////////////////////////////////////////////////////////////////////
-		///////////// re-formulate the mission and add to waiting missio n///////////////
-		/////////////////////////////////////////////////////////////////////////////////
 		if(modeOfSim != 3)
 			ui->printFailedMission(m->get_id());
-		m->set_FD(Day);
-		MountainousMission* MM=dynamic_cast<MountainousMission*>(m);
-		if(MM)
-			WMMList.insert(MM);
-		EmergencyMission* EM=dynamic_cast<EmergencyMission*>(m);
-		if(EM)
-			WEMList.add(EM,EM->get_pri());
-		PolarMission* PM=dynamic_cast<PolarMission*>(m);
-		if(PM)
-			WPMList.enqueue(PM);
 
 		///////////////////////////////////////////////////////////////
 		//////////// send rover to be checked up  /////////////////////
 		///////////////////////////////////////////////////////////////
 
 		Rover* r;
+
 		r=m->get_R();
 		m->set_R(nullptr);
 
@@ -676,12 +665,35 @@ void MarsStation::failed_func(LinkedPriorityQueue<Mission*>& ine_M)
 			r->incrementNumofcheckups();
 		}
 
+		/////////////////////////////////////////////////////////////////////////////////
+		///////////// re-formulate the mission and add to waiting missio n///////////////
+		/////////////////////////////////////////////////////////////////////////////////
+		
+		m->set_FD(Day);
+		MountainousMission* MM=dynamic_cast<MountainousMission*>(m);
+		if(MM)
+			WMMList.insert(MM);
+		EmergencyMission* EM=dynamic_cast<EmergencyMission*>(m);
+		if(EM)
+			WEMList.add(EM,EM->get_pri());
+		PolarMission* PM=dynamic_cast<PolarMission*>(m);
+		if(PM)
+			WPMList.enqueue(PM);
+
+		
+
 		return;
 	}
 
 	else  // mission in-executing and changes failed probability 
 	{
-		m->set_fprob(m->get_fprob()- static_cast <float> (rand()));
+		/*std::default_random_engine generator;
+		std::uniform_int_distribution<int> distribution(0,100);
+		float rand = distribution(generator);
+
+		rand=rand/100.0;*/
+
+		m->set_fprob(m->get_fprob() - ((float) rand()/RAND_MAX));
 		ine_M.add(m,(1.0/(m->get_CD())));
 		return;
 	}
