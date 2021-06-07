@@ -3,6 +3,7 @@
 #include <iostream>
 #include <fstream>
 #include<direct.h>
+#include<Windows.h>
 using namespace std;
 
 UI::UI(MarsStation* st){		//	constructor
@@ -480,7 +481,7 @@ void UI::waitEnter(){
 }
 
 void UI::waitSecond(){
-	_sleep(1000);		//	waiting 1 second
+	Sleep(1000);		//	waiting 1 second
 }
 
 int UI::getModeOfSim(){

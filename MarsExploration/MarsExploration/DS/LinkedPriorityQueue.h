@@ -35,8 +35,6 @@ LinkedPriorityQueue<T>::LinkedPriorityQueue()
 {
 	backPtr = nullptr;
 	frontPtr = nullptr;
-	/*backPtr->setpriority(0);
-	frontPtr->setpriority(0);*/
 }
 /////////////////////////////////////////////////////////////////////////////////////////
 

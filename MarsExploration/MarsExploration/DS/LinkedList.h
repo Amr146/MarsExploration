@@ -162,6 +162,7 @@ public:
 			index++;
 			ptr = ptr->getNext();
 		}
+		return nullptr;
 	}
 
 	T replace(int position, const T& newEntry)
@@ -179,6 +180,7 @@ public:
 			index++;
 			ptr = ptr->getNext();
 		}
+		return nullptr;
 	}
 
 	~LinkedList()

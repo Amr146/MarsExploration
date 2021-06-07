@@ -46,10 +46,6 @@ public:
 
 	void ReadInput();
 
-	void AssignMissions();
-
-	void WriteOutput();
-
 	void createMrovers(int n, double* speed, int nom, int checkUp);
 
 	void createProvers(int n, double* speed, int nom, int checkUp);

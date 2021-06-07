@@ -1,13 +1,13 @@
 #include "MarsStation.h"
 #include"UI.h"
 #include <iostream>
-#include <random>
 using namespace std;
 MarsStation::MarsStation(){
 	ui = new UI(this);
 	auto_promoted = 0;
 	Day=1;
 	modeOfSim = ui->getModeOfSim();
+	autoP = 0;
 }
 
 void MarsStation::Simulate()
@@ -495,12 +495,6 @@ void MarsStation::Simulate()
 					IMRList.add(R,1.0/(R->getFinishMaintenanceday()));   //return the rovers to the original maintance list
 				}
 				}
-				
-				/*while (!temp.isEmpty())
-				{
-					temp.remove(R);
-					IMRList.add(R,(1.0/R->getFinishMaintenanceday()));
-				}*/
 				condition7=found;
 			}
 		
@@ -527,10 +521,6 @@ void MarsStation::Simulate()
 void MarsStation::ReadInput(){
 	ui->loadInputFile();
 }
-
-void MarsStation::AssignMissions(){}
-
-void MarsStation::WriteOutput(){}
 
 void MarsStation::createMrovers(int n, double* speed, int nom, int checkUp){
 	for(int i = 0; i < n; i++){
@@ -687,12 +677,6 @@ void MarsStation::failed_func(LinkedPriorityQueue<Mission*>& ine_M)
 
 	else  // mission in-executing and changes failed probability 
 	{
-		/*std::default_random_engine generator;
-		std::uniform_int_distribution<int> distribution(0,100);
-		float rand = distribution(generator);
-
-		rand=rand/100.0;*/
-
 		m->set_fprob(m->get_fprob() - ((float) rand()/RAND_MAX));
 		ine_M.add(m,(1.0/(m->get_CD())));
 		return;

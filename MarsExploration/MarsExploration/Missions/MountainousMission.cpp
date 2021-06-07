@@ -2,7 +2,8 @@
 
 MountainousMission::MountainousMission( int ID, double Target_location, int mission_duration, double Si, int fd):Mission(ID,Target_location,mission_duration,Si, fd)
 {
-
+	AutoP = 0;
+	AutoPDay = 0;
 }
 
 void MountainousMission::set_id(int ID)

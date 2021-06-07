@@ -8,6 +8,12 @@ Mission::Mission( int ID, double Target_location, int mission_duration, double S
 	Significance=Si;
 	FD = fd;
 	R = nullptr;
+	fprob = 0;
+	sprob = 0;
+	td_days = 0;
+	CD = 0;
+	ED = 0;
+	WD = 0;
 }
 
 void Mission::set_id(int ID)
