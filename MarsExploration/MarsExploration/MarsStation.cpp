@@ -21,6 +21,8 @@ void MarsStation::Simulate()
 
 	while (!EventList.isEmpty() || !WPMList.isEmpty() || !WMMList.isEmpty() || !WEMList.isEmpty() || !IEList.isEmpty() ||!IMRList.isEmpty() || !ICURList.isEmpty())
 	{
+		if(modeOfSim != 3)
+			ui->printDayNumber(Day);
 		//////////////////////////////////////////////////////////////////////////////////////////
 	     //  searching for the rovers which finished checkup and return it back to it's list //
 		//////////////////////////////////////////////////////////////////////////////////////////

@@ -19,5 +19,6 @@ public:
 	void waitSecond();
 	int getModeOfSim();
 	void printFailedMission(int id);
+	void printDayNumber(int day);
 };
 #endif

@@ -190,7 +190,7 @@ void UI::printDataOfDay(int day){
 	string dayDetails = "[";
 	int n = 0;
 
-	std::cout << "Current day:" << day << "\n";
+	//	std::cout << "Current day:" << day << "\n";
 	
 	//////////////////////////////////////////////////////////
 	//	Printing waiting missions	//////////////////////////
@@ -502,4 +502,8 @@ int UI::getModeOfSim(){
 
 void UI::printFailedMission(int id){
 	cout << "\nFAILUR: Mission #" << id << endl;
+}
+
+void UI::printDayNumber(int day){
+	cout << "Current day:" << day << "\n";
 }
