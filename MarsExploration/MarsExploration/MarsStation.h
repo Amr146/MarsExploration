@@ -25,7 +25,6 @@ private:
 	UI* ui;
 	int autoP;
 	int auto_promoted;
-	int numberofmount;
 	int Day;
 	int modeOfSim;
 protected:
@@ -90,8 +89,6 @@ public:
 	int getMode();
 
 	int getAutoPromoted();
-
-	int getnumberofmount();
 
 	void failed_func(LinkedPriorityQueue<Mission*>& ine_M);
 

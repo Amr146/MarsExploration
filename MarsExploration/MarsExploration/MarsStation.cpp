@@ -5,7 +5,6 @@ using namespace std;
 MarsStation::MarsStation(){
 	ui = new UI(this);
 	auto_promoted = 0;
-	numberofmount=0;
 	Day=1;
 	modeOfSim = ui->getModeOfSim();
 }
@@ -123,18 +122,7 @@ void MarsStation::Simulate()
 				condition3=false;
 
 		}
-		/////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		     //        getting the total number of mountainous missions (needed for %autop)   //
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		if (EventList.isEmpty() && !enterednumberofmount && auto_promoted==0)
-		{
-			numberofmount=WMMList.getLength();
-		}
-
-
+		
 		////////////////////////////////////////////////////////////////////////////////////////////////////
 		  // searching for the mountainous mission which should be Auto promoted to Emergency mission //
 		////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -530,8 +518,6 @@ void MarsStation::Simulate()
 		}
 		Day++;
 	}
-	cout<<auto_promoted<<endl;
-	cout<<numberofmount<<endl;
 	ui->createOutputFile();
 }
 
@@ -635,11 +621,6 @@ int MarsStation::getAutoPromoted(){
 	return auto_promoted;
 }
 
-int MarsStation:: getnumberofmount()
-{
-	return numberofmount;
-}
-
 void MarsStation::failed_func(LinkedPriorityQueue<Mission*>& ine_M)
 {
 	Mission* m;
@@ -659,7 +640,8 @@ void MarsStation::failed_func(LinkedPriorityQueue<Mission*>& ine_M)
 		/////////////////////////////////////////////////////////////////////////////////
 		///////////// re-formulate the mission and add to waiting missio n///////////////
 		/////////////////////////////////////////////////////////////////////////////////
-		
+		if(modeOfSim != 3)
+			ui->printFailedMission(m->get_id());
 		m->set_FD(Day);
 		MountainousMission* MM=dynamic_cast<MountainousMission*>(m);
 		if(MM)
@@ -704,7 +686,6 @@ void MarsStation::failed_func(LinkedPriorityQueue<Mission*>& ine_M)
 
 
 }
-
 
 MarsStation::~MarsStation(){
 	delete ui;

@@ -18,5 +18,6 @@ public:
 	void waitEnter();
 	void waitSecond();
 	int getModeOfSim();
+	void printFailedMission(int id);
 };
 #endif

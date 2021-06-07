@@ -143,7 +143,7 @@ void UI::createOutputFile(){
 		}else{
 			outputFile << "Avg Wait= " << 1.0*totalWait/totalMissions << ", Avg Exec = " << 1.0*totalExecution/totalMissions << "\n";
 
-			outputFile << "Auto-Promoted: " << 100.0*station->getAutoPromoted()/station->getnumberofmount() << "%\n"; 
+			outputFile << "Auto-Promoted: " << 100.0*station->getAutoPromoted()/(Mmission + station->getAutoPromoted()) << "%\n"; 
 		}
 		
 	}
@@ -494,4 +494,8 @@ int UI::getModeOfSim(){
 	}
 	std::cout << "\nSimulation Starts...\n";
 	return mode;
+}
+
+void UI::printFailedMission(int id){
+	cout << "\nFAILUR: Mission #" << id << endl;
 }
